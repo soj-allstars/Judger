@@ -1,0 +1,9 @@
+{
+  "problem_id": 1,
+  "submitted_code":"#include<iostream> \n int main(){std::cout << \"hw\" <<std::endl;} ",
+  "time_limit": 1000,
+  "memory_limit": 256,
+  "solution_code": "code here",
+  "checker_type": 0 
+}
+
