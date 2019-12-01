@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cdea8664-e8f3-4624-93d0-87e475f3900e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Judger_Test.py</StartupFile>
+    <StartupFile>iamClient.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,12 +25,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Judger_Test.py" />
+    <Compile Include="module1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="iamClient.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RequesrTest.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="answer.txt" />
     <Content Include="output.txt" />
     <Content Include="testjson.json" />
-    <Content Include="wa.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
