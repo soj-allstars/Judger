@@ -49,7 +49,7 @@ def get_optional():
 def deal_submitted(**summit_detail):
     dict_to_return = dict()
     code_file = open(fileName, "w")
-    code_file.write(summit_detail["solution_code"])
+    code_file.write(summit_detail["submitted_code"])
     code_file.close()
 
     init()
@@ -62,7 +62,7 @@ def deal_submitted(**summit_detail):
         "fuck people1",
         "fuck people2"
     ]
-
+    print("deal OK!")
     return dict_to_return
 
 
