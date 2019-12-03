@@ -1,6 +1,10 @@
 import subprocess
 import os
 import sys
+import conf
+import requests
+from rq import get_current_job
+import logging
 
 
 fileName = "test.cpp"
@@ -46,10 +50,11 @@ def get_optional():
     return "fuck"
 
 
-def deal_submitted(**summit_detail):
+def deal_submitted(**submit_detail):
+    """for 'judge' queue"""
     dict_to_return = dict()
     code_file = open(fileName, "w")
-    code_file.write(summit_detail["submitted_code"])
+    code_file.write(submit_detail["submitted_code"])
     code_file.close()
 
     init()
@@ -66,5 +71,14 @@ def deal_submitted(**summit_detail):
     return dict_to_return
 
 
+def send_result_back(submit_id):
+    """for 'result' queue"""
+    judge_job = get_current_job().dependency
+    result = judge_job.result
+    if not result:
+        logging.error(f'[send_result_back] job has not finished. {judge_job.id=}')
 
-
+    try:
+        requests.post(conf.SOJ_HOST, {'sub_id': submit_id, 'result': result}, timeout=0.01)
+    except requests.exceptions.Timeout:
+        logging.error(f'[send_result_back] soj has no response.')
