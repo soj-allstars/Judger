@@ -3,7 +3,6 @@ import os
 import sys
 import conf
 import requests
-from rq import get_current_job
 import logging
 
 
@@ -50,35 +49,29 @@ def get_optional():
     return "fuck"
 
 
-def deal_submitted(**submit_detail):
-    """for 'judge' queue"""
-    dict_to_return = dict()
+def judge_submission(**submit_detail):
+    result = dict()
     code_file = open(fileName, "w")
     code_file.write(submit_detail["submitted_code"])
     code_file.close()
 
     init()
     compile_code()
-    dict_to_return["verdict"] = compared_with_answer()
-    dict_to_return["desc"] = get_optional()
-    dict_to_return["time_usage"] = 0
-    dict_to_return["memory_usage"] = 0
-    dict_to_return["outputs"] = [
+    result["verdict"] = compared_with_answer()
+    result["desc"] = get_optional()
+    result["time_usage"] = 0
+    result["memory_usage"] = 0
+    result["outputs"] = [
         "fuck people1",
         "fuck people2"
     ]
     print("deal OK!")
-    return dict_to_return
+
+    send_result_back(submit_detail['submit_id'], result)
 
 
-def send_result_back(submit_id):
-    """for 'result' queue"""
-    judge_job = get_current_job().dependency
-    result = judge_job.result
-    if not result:
-        logging.error(f'[send_result_back] job has not finished. {judge_job.id=}')
-
+def send_result_back(submit_id, result):
     try:
-        requests.post(conf.SOJ_HOST, {'sub_id': submit_id, 'result': result}, timeout=0.01)
+        requests.post(conf.RESULT_API_URL, {'submit_id': submit_id, 'result': result}, timeout=0.01)
     except requests.exceptions.Timeout:
         logging.error(f'[send_result_back] soj has no response.')
