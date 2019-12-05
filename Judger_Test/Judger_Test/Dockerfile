@@ -1,6 +1,6 @@
 FROM python:3.8.0
 WORKDIR /usr/src/judger
-COPY judger_test.py testjson.json answer.txt job_dealer.py conf.py  ./
+COPY testjson.json answer.txt job_dealer.py conf.py  ./
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir rq &&\
 	pip install --no-cache-dir requests
