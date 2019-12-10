@@ -3,61 +3,150 @@ import subprocess
 import os
 import sys
 from multiprocessing import Process
+import lorun
+
 
 fileName = "test.cpp"
-CpfileName = r".\test.exe"
+cpFileName = r".\test.exe"
 
-def forprint(temp):
-    for i in temp:
-        print(i)
+InputFile = ""
+OutputFile = ""
+YouFile = 'testdata/temp.out'
+
+RESULT_STR = [
+    'Accepted',
+    'Presentation Error',
+    'Time Limit Exceeded',
+    'Memory Limit Exceeded',
+    'Wrong Answer',
+    'Runtime Error',
+    'Output Limit Exceeded',
+    'Compile Error',
+    'System Error'
+]
 
 
-def CompileCode():
-    subprocess.call(["g++","-g",fileName,"-o",CpfileName])
-    print("cp over ---")
+def set_input_file(name):
+    global InputFile
+    InputFile = name
 
-    with open('output.txt','w') as Out_f: 
-        p = subprocess.Popen([CpfileName],stdout=Out_f)   
-        p.communicate() 
+def set_output_file(name):
+    global OutputFile
+    OutputFile = name
+
+
+def run_one(p_path,in_path,out_path):
+    fin = open(in_path)
+    ftemp = open(YouFile,'w')
+
+    runcfg = {
+        'args': [p_path],
+        'fd_in': fin.fileno(),
+        'fd_out': ftemp.fileno(),
+        'timelimit': 1000,  # in MS
+        'memorylimit': 40000,  # in KB
+    }
+    rst = lorun.run(runcfg)
+    fin.close()
+    ftemp.close()
     print("run over --")
 
+    if rst['result'] == 0:
+        ftemp = open(YouFile)
+        fout = open(out_path)
+        #@todo check will change
+        crst = lorun.check(fout.fileno(), ftemp.fileno())
+        fout.close()
+        ftemp.close()
+        os.remove(YouFile)
+        if crst != 0:
+            rst['result'] = crst
+            return rst
 
-def ComparedWithAnswer():
-    with open('output.txt','r') as Out_f:
-        with open('answer.txt','r') as Ans_f:
-            Out = Out_f.read()
-            Ans = Ans_f.read()
-            if(Out == Ans): 
+    return rst
+
+
+def compile_code():
+    #@todo control cp
+    cp = subprocess.call(["g++", "-g", fileName, "-o", cpFileName])
+    if cp != 0:
+        print("compile error")
+        return
+    print("cp over ---")
+
+
+#---- 2019年12月10日 14:35:13
+
+def compared_with_answer():
+    with open('output.txt', 'r') as Out_f:
+        with open('answer.txt', 'r') as Ans_f:
+            out = Out_f.read()
+            ans = Ans_f.read()
+            if out == ans:
                 print("true")
+                return 0
             else:
                 print("false")
-def Init():
-    InitByOS()
-
-def InitByOS():
-    global CpfileName
-    MyOs = sys.platform
-    if(MyOs =="linux"):
-        CpfileName = r"./test.out"
-   
+                return 1
 
 
+def init():
+    init_by_os()
+
+
+def init_by_os():
+    global cpFileName
+    my_os = sys.platform
+    if "linux" == my_os:
+        cpFileName = r"./test.out"
+
+
+def get_optional():
+    # Todo
+    return "fuck"
+
+
+def judge_submission(**submit_detail):
+    result = dict()
+    code_file = open(fileName, "w")
+    code_file.write(submit_detail["submitted_code"])
+    code_file.close()
+
+    init()
+    compile_code()
+    result["verdict"] = compared_with_answer()
+    result["desc"] = get_optional()
+    result["time_usage"] = 0
+    result["memory_usage"] = 0
+    result["outputs"] = [
+        "fuck people1",
+        "fuck people2"
+    ]
+    print("deal OK!")
+
+    send_result_back(submit_detail['submit_id'], result)
+
+
+def send_result_back(submit_id, result):
+    try:
+        requests.post(conf.RESULT_API_URL, {'submit_id': submit_id, 'result': result}, timeout=0.01)
+    except requests.exceptions.Timeout:
+        logging.error(f'[send_result_back] soj has no response.')
 
 
 if __name__ == '__main__':
-    
+    init()
+    in_path = os.path.join("testdata","1.in")
+    out_path = os.path.join("testdata","1.out")
+
+    compile_code()
+    rst = run_one(cpFileName,in_path,out_path)
+    print(rst)
+    rst['result'] = RESULT_STR[rst['result']]
+    print(rst)
 
 
-    with open("testjson.json",'r') as load_f:
-        load_dict = json.load(load_f)
-        #print(load_dict)
-        fo = open(fileName, "w")
-        fo.write( load_dict["submitted_code"])
-        fo.close()
-    Init()
-    CompileCode()
-    ComparedWithAnswer()
-    print(CpfileName)
+
     
     
     pass
