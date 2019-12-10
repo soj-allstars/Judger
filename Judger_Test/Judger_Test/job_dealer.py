@@ -5,6 +5,7 @@ import conf
 import requests
 import logging
 import lorun
+import json
 
 
 fileName = "test.cpp"
@@ -135,7 +136,7 @@ def judge_submission(**submit_detail):
 
 def send_result_back(submit_id, result):
     try:
-        requests.post(conf.RESULT_API_URL, {'submit_id': submit_id, 'result': result}, timeout=0.01)
+        requests.post(conf.RESULT_API_URL, {'submit_id': submit_id, 'result': json.dumps(result)}, timeout=0.01)
     except requests.exceptions.Timeout:
         logging.error(f'[send_result_back] soj has no response.')
 
