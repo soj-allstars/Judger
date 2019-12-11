@@ -5,14 +5,13 @@ import conf
 import requests
 import logging
 import lorun
-import json
 
 
-fileName = "test.cpp"
-cpFileName = r".\test.exe"
-InputFile = ""
-OutputFile = ""
-YouFile = 'testdata/temp.out'
+code_file_name = "test.cpp"
+cp_file_name = r".\test.exe"
+input_file_name = ""
+output_file_name = ""
+you_file = 'testdata/temp.out'
 
 RESULT_STR = [
     'Accepted',
@@ -28,17 +27,17 @@ RESULT_STR = [
 
 
 def set_input_file(name):
-    global InputFile
-    InputFile = name
+    global input_file_name
+    input_file_name = name
 
 def set_output_file(name):
-    global OutputFile
-    OutputFile = name
+    global output_file_name
+    output_file_name = name
 
 
 def run_one(p_path,in_path,out_path,time_limit,memory_limit):
     fin = open(in_path)
-    ftemp = open(YouFile,'w')
+    ftemp = open(you_file, 'w')
 
     runcfg = {
         'args': [p_path],
@@ -53,13 +52,13 @@ def run_one(p_path,in_path,out_path,time_limit,memory_limit):
     print("run over --")
 
     if rst['result'] == 0:
-        ftemp = open(YouFile)
+        ftemp = open(you_file)
         fout = open(out_path)
         #@todo check will change
         crst = lorun.check(fout.fileno(), ftemp.fileno())
         fout.close()
         ftemp.close()
-        os.remove(YouFile)
+        os.remove(you_file)
         if crst != 0:
             rst['result'] = crst
             return rst
@@ -69,7 +68,7 @@ def run_one(p_path,in_path,out_path,time_limit,memory_limit):
 
 def compile_code():
     #@todo control cp
-    cp = subprocess.call(["g++", "-g", fileName, "-o", cpFileName])
+    cp = subprocess.call(["g++", "-g", code_file_name, "-o", cp_file_name])
     if cp != 0:
         print("compile error")
         return
@@ -94,10 +93,10 @@ def init():
 
 
 def init_by_os():
-    global cpFileName
+    global cp_file_name
     my_os = sys.platform
     if "linux" == my_os:
-        cpFileName = r"./test.out"
+        cp_file_name = r"./test.out"
 
 
 def get_optional():
@@ -106,7 +105,7 @@ def get_optional():
 
 
 def judge_submission(**submit_detail):
-    code_file = open(fileName, "w")
+    code_file = open(code_file_name, "w")
     code_file.write(submit_detail["submitted_code"])
     code_file.close()
 
@@ -116,8 +115,8 @@ def judge_submission(**submit_detail):
     # ------
     in_path = os.path.join("testdata","1.in")
     out_path = os.path.join("testdata","1.out")
-    rst = run_one(cpFileName,in_path,out_path,
-                  submit_detail["time_limit"],submit_detail["memory_limit"])
+    rst = run_one(cp_file_name, in_path, out_path,
+                  submit_detail["time_limit"], submit_detail["memory_limit"])
     #-------
     result = dict()
     result["verdict"] = rst["result"]
@@ -136,7 +135,7 @@ def judge_submission(**submit_detail):
 
 def send_result_back(submit_id, result):
     try:
-        requests.post(conf.RESULT_API_URL, {'submit_id': submit_id, 'result': json.dumps(result)}, timeout=0.01)
+        requests.post(conf.RESULT_API_URL, {'submit_id': submit_id, 'result': result}, timeout=0.01)
     except requests.exceptions.Timeout:
         logging.error(f'[send_result_back] soj has no response.')
 
@@ -144,7 +143,7 @@ def send_result_back(submit_id, result):
 #     init()
 #     in_path = os.path.join("testdata", "1.in")
 #     out_path = os.path.join("testdata", "1.out")
-#     rst = run_one(cpFileName, in_path, out_path,
+#     rst = run_one(cp_file_name, in_path, out_path,
 #                   3000, 300000)
 #     result = dict()
 #     result["verdict"] = rst["result"]
