@@ -1,0 +1,2 @@
+class ExecutorInitException(RuntimeError):
+    pass
