@@ -1,9 +1,13 @@
 import lorun
+import shutil
+from utils import create_file_to_write
+from consts import VerdictResult
 
 
 class BaseExecutor:
-    def __init__(self, code):
+    def __init__(self, code, exe_dir):
         self.code = code
+        self.exe_dir = exe_dir
         self.exe_args = None
         self.init()
 
@@ -11,22 +15,36 @@ class BaseExecutor:
         raise NotImplementedError
 
     def execute(self, input_path, output_path, time_limit, memory_limit):
-        input_file = open(input_path, 'r')
-        output_file = open(output_path, 'w')
+        input_file = open(input_path, 'r') if input_path else None
+        output_file = create_file_to_write(output_path) if output_path else None
 
-        run_cfg = {
-            'args': self.exe_args,
-            'fd_in': input_file.fileno(),
-            'fd_out': output_file.fileno(),
-            'timelimit': time_limit,  # in MS
-            'memorylimit': memory_limit,  # in KB
-        }
-        result = lorun.run(run_cfg)
-        input_file.close()
-        output_file.close()
+        try:
+            run_cfg = {
+                'args': self.exe_args,
+                'fd_in': input_file.fileno() if input_file else 0,
+                'fd_out': output_file.fileno() if output_file else 0,
+                'timelimit': time_limit,  # in MS
+                'memorylimit': memory_limit,  # in KB
+            }
+            result = lorun.run(run_cfg)
+        except SystemError:
+            return {
+                'result': VerdictResult.RE,
+                'timeused': 0,
+                'memoryused': 0,
+            }
+        finally:
+            if input_file:
+                input_file.close()
+            if output_file:
+                output_file.close()
 
         self.post_execution()
         return result
 
     def post_execution(self):
         pass
+
+    def cleanup(self):
+        # TODO should we delete exe_dir after execution?
+        shutil.rmtree(self.exe_dir)

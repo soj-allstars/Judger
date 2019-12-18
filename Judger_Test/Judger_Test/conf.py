@@ -8,3 +8,6 @@ RESULT_API_URL = f'http://{SOJ_HOST}/api/judge/result/'
 redis = Redis(os.environ.get('REDIS_HOST', '47.106.140.231'))
 judge_q = Queue('judge', connection=redis)
 result_q = Queue('result', connection=redis)
+
+LOG_DIR = os.environ.get('LOG_DIR')
+CHECKER_DIR = os.environ.get('CHECKER_DIR')

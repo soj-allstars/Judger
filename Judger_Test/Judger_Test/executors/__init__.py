@@ -6,5 +6,5 @@ _lang_executor_map = {
 }
 
 
-def get_executor(lang, code):
-    return _lang_executor_map[lang](code)
+def get_executor(lang, code, exe_dir):
+    return _lang_executor_map[lang](code, exe_dir)
