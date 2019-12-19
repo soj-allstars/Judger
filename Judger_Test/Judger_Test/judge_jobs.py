@@ -74,7 +74,7 @@ def do_judge(submit_detail, submission_dir, submitted_executor, solution_executo
         submitted_res = submitted_executor.execute(input_path, output_path, time_limit, memory_limit)
         solution_res = solution_executor.execute(input_path, answer_path, time_limit, memory_limit)
         if solution_res['result'] != VerdictResult.AC:
-            result['result'] = VerdictResult.SE
+            result['verdict'] = VerdictResult.SE
             result['desc'] = f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> instead of <{RESULT_STR[VerdictResult.AC]}>'
             return result
 
@@ -84,14 +84,14 @@ def do_judge(submit_detail, submission_dir, submitted_executor, solution_executo
             result['outputs'].append(f.read())
 
         if submitted_res['result'] != VerdictResult.AC:
-            result['result'] = submitted_res['result']
+            result['verdict'] = submitted_res['result']
             return result
 
         # check the result
         checker = get_checker(checker_type)
-        result['result'], info = checker.check(output_path, answer_path, f'{conf.LOG_DIR}/{problem_id}_{submit_id}.log')
+        result['verdict'], info = checker.check(output_path, answer_path)
 
-        if result['result'] != VerdictResult.AC:
+        if result['verdict'] != VerdictResult.AC:
             result['desc'] = info
             return result
 
