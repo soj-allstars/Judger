@@ -1,8 +1,9 @@
 from executors.cpp import CppExecutor
-
+from executors.cpy import CpyExecutor
 
 _lang_executor_map = {
-    "CPP": CppExecutor
+    "CPP": CppExecutor,
+    "CPY": CpyExecutor
 }
 
 
