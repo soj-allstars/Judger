@@ -5,32 +5,20 @@ from executors import get_executor
 from consts import VerdictResult
 
 
-class TestCpp(unittest.TestCase):
+class TestCpy(unittest.TestCase):
     solution_code = """
-#include <iostream>
-using namespace std;
-int main() {
-    int a, b;
-    cin >> a >> b;
-    cout << a + b << endl;
-    return 0;
-}
+a = input().split()
+print(int(a[0]) + int(a[1]))
     """
-    solution_lang = "G++"
+    solution_lang = "CPY"
 
     def test_AC(self):
         submission_dir = f'problems/1/test'
         ac_code = """
-#include <iostream>
-using namespace std;
-int main() {
-    int a, b;
-    cin >> a >> b;
-    cout << a + b << endl;
-    return 0;
-}
+a = input().split()
+print(int(a[0]) + int(a[1]))
         """
-        submitted_executor = get_executor("G++", ac_code, f'{submission_dir}/submitted')
+        submitted_executor = get_executor("CPY", ac_code, f'{submission_dir}/submitted')
         solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,

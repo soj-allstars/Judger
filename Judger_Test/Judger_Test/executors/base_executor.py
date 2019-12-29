@@ -29,7 +29,7 @@ class BaseExecutor:
             result = lorun.run(run_cfg)
         except SystemError:
             return {
-                'result': VerdictResult.RE,
+                'result': VerdictResult.SE,
                 'timeused': 0,
                 'memoryused': 0,
             }

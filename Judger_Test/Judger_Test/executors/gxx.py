@@ -5,7 +5,7 @@ from consts import VerdictResult
 from exceptions import ExecutorInitException
 
 
-class CppExecutor(BaseExecutor):
+class GxxExecutor(BaseExecutor):
     def init(self):
         code_path = f'{self.exe_dir}/code.cpp'
         code_file = create_file_to_write(code_path)

@@ -1,8 +1,8 @@
-from executors.cpp import CppExecutor
+from executors.gxx import GxxExecutor
 from executors.cpy import CpyExecutor
 from executors.gcc import GccExecutor
 _lang_executor_map = {
-    "G++": CppExecutor,
+    "GXX": GxxExecutor,
     "CPY": CpyExecutor,
     "GCC": GccExecutor
 }
