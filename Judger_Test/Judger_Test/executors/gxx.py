@@ -16,7 +16,7 @@ class GxxExecutor(BaseExecutor):
         log_path = f'{self.exe_dir}/compile.log'
         with open(log_path, 'w') as log_file:
             run_cfg = {
-                'args': ['g++', code_path, '-o', exe_path, '-O2', '--std=c++14'],
+                'args': ['g++', code_path, '-o', exe_path, '-Wall', '-O2', '--std=c++14'],
                 'fd_in': 0,
                 'fd_out': 0,
                 'fd_err': log_file.fileno(),

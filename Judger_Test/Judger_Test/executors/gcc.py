@@ -16,7 +16,7 @@ class GccExecutor(BaseExecutor):
         log_path = f'{self.exe_dir}/compile.log'
         with open(log_path, 'w') as log_file:
             run_cfg = {
-                'args': ['gcc', code_path, '-o', exe_path, '-O2'],
+                'args': ['gcc', code_path, '-o', exe_path, '-Wall', '-O2'],
                 'fd_in': 0,
                 'fd_out': 0,
                 'fd_err': log_file.fileno(),
