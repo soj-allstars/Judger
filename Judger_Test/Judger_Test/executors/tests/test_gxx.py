@@ -3,7 +3,7 @@ import unittest
 from judge_jobs import do_judge
 from executors import get_executor
 from consts import VerdictResult
-
+import exceptions
 
 class TestGxx(unittest.TestCase):
     solution_code = """
@@ -66,33 +66,6 @@ int main() {
         }, submission_dir, submitted_executor, solution_executor)
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
-    # @todo CE
-    pass
-
-    # def test_CE(self):
-    #     submission_dir = f'problems/1/test'
-    #     ce_code = """
-    #             #include <iostream>
-    #             using namespace std;
-    #             int main() {
-    #                 int a, b;
-    #                 cin >> a >> b;
-    #                 cout << a + b < endl;
-    #                 return 0;
-    #             }
-    #                     """
-    #     submitted_executor = get_executor(self.solution_lang, ce_code, f'{submission_dir}/submitted')
-    #     solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
-    #     result = do_judge({
-    #         "submit_id": 1,
-    #         "problem_id": 1,
-    #         "time_limit": 1000,
-    #         "memory_limit": 131072,
-    #         "checker_type": "icmp",
-    #     }, submission_dir, submitted_executor, solution_executor)
-    #
-    #     self.assertEqual(result['verdict'], VerdictResult.CE)
-
     def test_TLE(self):
         submission_dir = f'problems/1/test'
         tle_code = """
@@ -152,15 +125,15 @@ int main() {
         submission_dir = f'problems/1/test'
         re_code = """
                         #include <iostream>
-                        int fuck[60000000];
+                        int fuck[60000];
                         using namespace std;
                         int main() {
                             int a, b;
                             cin >> a >> b;
-                            for(int i = 0;i < 60005000;i++)
+                            for(int i = 0;i < 65000;i++)
                             { fuck[i] = i;
                             }
-                            cout << a + b << endl;
+                            cout << a + b < endl;
                             return 0;
                         }
 
@@ -205,3 +178,28 @@ int main() {
         }, submission_dir, submitted_executor, solution_executor)
         print(result)
         self.assertEqual(result["verdict"], VerdictResult.RE)
+
+    def test_CE(self):
+        submission_dir = f'problems/1/test'
+        re_code = """
+                                         #include <iostream>
+                        int fuck[60000000000];
+                        using namespace std;
+                        int main() {
+                            int a, b;
+                            cin >> a >> b;
+                            for(int i = 0;i < 60050000000;i++)
+                            { fuck[i] = i;
+                           }
+                            cout << a + b << endl;
+                            return 0;
+                        }
+
+                                              """
+        BOOL = False
+        try:
+            submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
+        except exceptions.ExecutorInitException:
+            BOOL = True
+        self.assertTrue(BOOL)
+
