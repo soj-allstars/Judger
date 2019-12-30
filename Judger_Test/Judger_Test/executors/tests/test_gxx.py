@@ -1,5 +1,5 @@
 import unittest
-#import conf
+# import conf
 from judge_jobs import do_judge
 from executors import get_executor
 from consts import VerdictResult
@@ -30,7 +30,7 @@ int main() {
             cout << a + b<< endl;
             return 0;
         }
-                """
+        """
         submitted_executor = get_executor("GXX", ac_code, f'{submission_dir}/submitted')
         solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
         result = do_judge({
@@ -46,15 +46,15 @@ int main() {
     def test_WA(self):
         submission_dir = f'problems/1/test'
         wa_code = """
-                #include <iostream>
-                using namespace std;
-                int main() {
-                    int a, b;
-                    cin >> a >> b;
-                    cout << a + b + 2 << endl;
-                    return 0;
-                }
-                        """
+            #include <iostream>
+            using namespace std;
+            int main() {
+                int a, b;
+                cin >> a >> b;
+                cout << a + b + 2 << endl;
+                return 0;
+            }
+        """
         submitted_executor = get_executor("GXX", wa_code, f'{submission_dir}/submitted')
         solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
         result = do_judge({
@@ -69,18 +69,18 @@ int main() {
     def test_TLE(self):
         submission_dir = f'problems/1/test'
         tle_code = """
-                        #include <iostream>
-                        using namespace std;
-                        int main() {
-                            int a, b;
-                            cin >> a >> b;
-                            while(true){
-                                a += b;
-                            }
-                            cout << a + b << endl;
-                            return 0;
-                        }
-                                """
+            #include <iostream>
+            using namespace std;
+            int main() {
+                int a, b;
+                cin >> a >> b;
+                while(true){
+                    a += b;
+                }
+                cout << a + b << endl;
+                return 0;
+            }
+        """
         submitted_executor = get_executor(self.submission_lang, tle_code, f'{submission_dir}/submitted')
         solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
         result = do_judge({
@@ -95,21 +95,20 @@ int main() {
     def test_MLE(self):
         submission_dir = f'problems/1/test'
         mle_code = """
-                #include <iostream>
-                int fuck[3000000];
-                int dick[3000000];
-                using namespace std;
-                int main() {
-                    int a, b;
-                    cin >> a >> b;
-                    for(int i = 0;i < 3000000;i++)
-                    { fuck[i] = i;
-                    dick[i] = i;}
-                    cout << a + b << endl;
-                    return 0;
-                }
-                        
-                                """
+            #include <iostream>
+            int fuck[3000000];
+            int dick[3000000];
+            using namespace std;
+            int main() {
+                int a, b;
+                cin >> a >> b;
+                for(int i = 0;i < 3000000;i++)
+                { fuck[i] = i;
+                dick[i] = i;}
+                cout << a + b << endl;
+                return 0;
+            }
+        """
         submitted_executor = get_executor(self.submission_lang, mle_code, f'{submission_dir}/submitted')
         solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
         result = do_judge({
@@ -124,20 +123,19 @@ int main() {
     def test_RE(self):
         submission_dir = f'problems/1/test'
         re_code = """
-                        #include <iostream>
-                        int fuck[60000];
-                        using namespace std;
-                        int main() {
-                            int a, b;
-                            cin >> a >> b;
-                            for(int i = 0;i < 65000;i++)
-                            { fuck[i] = i;
-                            }
-                            cout << a + b < endl;
-                            return 0;
-                        }
-
-                                        """
+            #include <iostream>
+            int fuck[60000];
+            using namespace std;
+            int main() {
+                int a, b;
+                cin >> a >> b;
+                for(int i = 0;i < 65000;i++)
+                { fuck[i] = i;
+                }
+                cout << a + b << endl;
+                return 0;
+            }
+        """
         submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
         solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
         result = do_judge({
@@ -153,20 +151,19 @@ int main() {
     def test_SE(self):
         submission_dir = f'problems/1/test'
         re_code = """
-                                #include <iostream>
-                                int fuck[60000000];
-                                using namespace std;
-                                int main() {
-                                    int a, b;
-                                    cin >> a >> b;
-                                    for(int i = 0;i < 60005000;i++)
-                                    { fuck[i] = i;
-                                    }
-                                    cout << a + b << endl;
-                                    return 0;
-                                }
-
-                                                """
+            #include <iostream>
+            int fuck[60000000];
+            using namespace std;
+            int main() {
+                int a, b;
+                cin >> a >> b;
+                for(int i = 0;i < 60005000;i++)
+                { fuck[i] = i;
+                }
+                cout << a + b << endl;
+                return 0;
+            }
+        """
         submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
         solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
         result = do_judge({
@@ -182,24 +179,18 @@ int main() {
     def test_CE(self):
         submission_dir = f'problems/1/test'
         re_code = """
-                                         #include <iostream>
-                        int fuck[60000000000];
-                        using namespace std;
-                        int main() {
-                            int a, b;
-                            cin >> a >> b;
-                            for(int i = 0;i < 60050000000;i++)
-                            { fuck[i] = i;
-                           }
-                            cout << a + b << endl;
-                            return 0;
-                        }
-
-                                              """
-        BOOL = False
-        try:
+            #include <iostream>
+            int fuck[60000000000];
+            using namespace std;
+            int main() {
+                int a, b;
+                cin >> a >> b;
+                for(int i = 0;i < 60050000000;i++)
+                { fuck[i] = i;
+               }
+                cout << a + b << endl;
+                return 0;
+            }
+        """
+        with self.assertRaises(exceptions.ExecutorInitException):
             submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
-        except exceptions.ExecutorInitException:
-            BOOL = True
-        self.assertTrue(BOOL)
-

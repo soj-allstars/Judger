@@ -7,7 +7,7 @@ mkdir -p problems
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
 
-git clone https://github.com/dojiong/Lo-runner.git
+git clone https://github.com/jpswing/Lo-runner.git
 cd Lo-runner
 python setup.py install
 cd ..

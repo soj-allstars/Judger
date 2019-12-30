@@ -14,4 +14,4 @@ class CFChecker:
         if cp.returncode != 0:
             return VerdictResult.WA, str(cp.stderr)  # stderr
 
-        return VerdictResult.AC, ""
+        return VerdictResult.AC, str(cp.stderr)
