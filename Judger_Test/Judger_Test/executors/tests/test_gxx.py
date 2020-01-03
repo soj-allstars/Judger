@@ -4,6 +4,9 @@ from judge_jobs import do_judge
 from executors import get_executor
 from consts import VerdictResult
 import exceptions
+import shutil
+import os
+
 
 class TestGxx(unittest.TestCase):
     solution_code = """
@@ -18,9 +21,10 @@ int main() {
     """
     solution_lang = "GXX"
     submission_lang = "GXX"
+    submission_dir = f'problems/1/test'
 
     def test_AC(self):
-        submission_dir = f'problems/1/test'
+        self.submission_dir = f'problems/1/test'
         ac_code = """
         #include <iostream>
         using namespace std;
@@ -31,20 +35,20 @@ int main() {
             return 0;
         }
         """
-        submitted_executor = get_executor("GXX", ac_code, f'{submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
+        submitted_executor = get_executor("GXX", ac_code, f'{self.submission_dir}/submitted')
+        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1000,
             "memory_limit": 100072,
             "checker_type": "icmp",
-        }, submission_dir, submitted_executor, solution_executor)
+        }, self.submission_dir, submitted_executor, solution_executor)
 
         self.assertEqual(result['verdict'], VerdictResult.AC)
 
     def test_WA(self):
-        submission_dir = f'problems/1/test'
+        self.submission_dir = f'problems/1/test'
         wa_code = """
             #include <iostream>
             using namespace std;
@@ -55,19 +59,19 @@ int main() {
                 return 0;
             }
         """
-        submitted_executor = get_executor("GXX", wa_code, f'{submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
+        submitted_executor = get_executor("GXX", wa_code, f'{self.submission_dir}/submitted')
+        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1000,
             "memory_limit": 131072,
             "checker_type": "icmp",
-        }, submission_dir, submitted_executor, solution_executor)
+        }, self.submission_dir, submitted_executor, solution_executor)
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
     def test_TLE(self):
-        submission_dir = f'problems/1/test'
+        self.submission_dir = f'problems/1/test'
         tle_code = """
             #include <iostream>
             using namespace std;
@@ -81,19 +85,19 @@ int main() {
                 return 0;
             }
         """
-        submitted_executor = get_executor(self.submission_lang, tle_code, f'{submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
+        submitted_executor = get_executor(self.submission_lang, tle_code, f'{self.submission_dir}/submitted')
+        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1111,
             "memory_limit": 131072,
             "checker_type": "icmp",
-        }, submission_dir, submitted_executor, solution_executor)
+        }, self.submission_dir, submitted_executor, solution_executor)
         self.assertEqual(result["verdict"], VerdictResult.TLE)
 
     def test_MLE(self):
-        submission_dir = f'problems/1/test'
+        self.submission_dir = f'problems/1/test'
         mle_code = """
             #include <iostream>
             int fuck[3000000];
@@ -109,19 +113,19 @@ int main() {
                 return 0;
             }
         """
-        submitted_executor = get_executor(self.submission_lang, mle_code, f'{submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
+        submitted_executor = get_executor(self.submission_lang, mle_code, f'{self.submission_dir}/submitted')
+        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 10011,
             "memory_limit": 26072,
             "checker_type": "icmp",
-        }, submission_dir, submitted_executor, solution_executor)
+        }, self.submission_dir, submitted_executor, solution_executor)
         self.assertEqual(result["verdict"], VerdictResult.MLE)
 
     def test_RE(self):
-        submission_dir = f'problems/1/test'
+        self.submission_dir = f'problems/1/test'
         re_code = """
             #include <iostream>
             int fuck[60000];
@@ -136,20 +140,19 @@ int main() {
                 return 0;
             }
         """
-        submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
+        submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
+        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1111,
             "memory_limit": 306072,
             "checker_type": "icmp",
-        }, submission_dir, submitted_executor, solution_executor)
-        print(result)
+        }, self.submission_dir, submitted_executor, solution_executor)
         self.assertEqual(result["verdict"], VerdictResult.RE)
 
     # def test_SE(self):
-    #     submission_dir = f'problems/1/test'
+    #     self.submission_dir = f'problems/1/test'
     #     solution_code = """
     #     #include <iostream>
     #     using namespace std;
@@ -174,20 +177,20 @@ int main() {
     #             return 0;
     #         }
     #     """
-    #     submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
-    #     solution_executor = get_executor(self.solution_lang, solution_code, f'{submission_dir}/solution')
+    #     submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
+    #     solution_executor = get_executor(self.solution_lang, solution_code, f'{self.submission_dir}/solution')
     #     result = do_judge({
     #         "submit_id": 1,
     #         "problem_id": 1,
     #         "time_limit": 1111,
     #         "memory_limit": 306072,
     #         "checker_type": "icmp",
-    #     }, submission_dir, submitted_executor, solution_executor)
+    #     }, self.submission_dir, submitted_executor, solution_executor)
     #     print(result)
     #     self.assertEqual(result["verdict"], VerdictResult.SE)
 
     def test_CE(self):
-        submission_dir = f'problems/1/test'
+        self.submission_dir = f'problems/1/test'
         re_code = """
             #include <iostream>
             int fuck[60000000000];
@@ -203,4 +206,7 @@ int main() {
             }
         """
         with self.assertRaises(exceptions.ExecutorInitException):
-            submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
+            submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.submission_dir, ignore_errors=True)
