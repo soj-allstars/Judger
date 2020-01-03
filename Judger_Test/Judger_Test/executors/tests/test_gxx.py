@@ -148,33 +148,43 @@ int main() {
         print(result)
         self.assertEqual(result["verdict"], VerdictResult.RE)
 
-    def test_SE(self):
-        submission_dir = f'problems/1/test'
-        re_code = """
-            #include <iostream>
-            int fuck[60000000];
-            using namespace std;
-            int main() {
-                int a, b;
-                cin >> a >> b;
-                for(int i = 0;i < 60005000;i++)
-                { fuck[i] = i;
-                }
-                cout << a + b << endl;
-                return 0;
-            }
-        """
-        submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{submission_dir}/solution')
-        result = do_judge({
-            "submit_id": 1,
-            "problem_id": 1,
-            "time_limit": 1111,
-            "memory_limit": 306072,
-            "checker_type": "icmp",
-        }, submission_dir, submitted_executor, solution_executor)
-        print(result)
-        self.assertEqual(result["verdict"], VerdictResult.RE)
+    # def test_SE(self):
+    #     submission_dir = f'problems/1/test'
+    #     solution_code = """
+    #     #include <iostream>
+    #     using namespace std;
+    #     int main() {
+    #         int a, b;
+    #         cin >> a >> b;
+    #         cout << a + b  << endl;
+    #         return 0;
+    #     }
+    #         """
+    #     re_code = """
+    #         #include <iostream>
+    #         int fuck[6000000];
+    #         using namespace std;
+    #         int main() {
+    #             int a, b;
+    #             cin >> a >> b;
+    #             for(int i = 0;i < 605000;i++)
+    #             { fuck[i] = i;
+    #             }
+    #             cout << a + b << endl;
+    #             return 0;
+    #         }
+    #     """
+    #     submitted_executor = get_executor(self.submission_lang, re_code, f'{submission_dir}/submitted')
+    #     solution_executor = get_executor(self.solution_lang, solution_code, f'{submission_dir}/solution')
+    #     result = do_judge({
+    #         "submit_id": 1,
+    #         "problem_id": 1,
+    #         "time_limit": 1111,
+    #         "memory_limit": 306072,
+    #         "checker_type": "icmp",
+    #     }, submission_dir, submitted_executor, solution_executor)
+    #     print(result)
+    #     self.assertEqual(result["verdict"], VerdictResult.SE)
 
     def test_CE(self):
         submission_dir = f'problems/1/test'

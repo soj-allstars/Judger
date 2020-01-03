@@ -14,15 +14,16 @@ class BaseExecutor:
     def init(self):
         raise NotImplementedError
 
-    def execute(self, input_path, output_path, time_limit, memory_limit):
+    def execute(self, input_path, output_path, log_path, time_limit, memory_limit):
         input_file = open(input_path, 'r') if input_path else None
         output_file = create_file_to_write(output_path) if output_path else None
-
+        log_file = create_file_to_write(log_path) if log_path else None
         try:
             run_cfg = {
                 'args': self.exe_args,
                 'fd_in': input_file.fileno() if input_file else 0,
                 'fd_out': output_file.fileno() if output_file else 0,
+                'fd_err': log_file.fileno() if log_path else 0,
                 'timelimit': time_limit,  # in MS
                 'memorylimit': memory_limit,  # in KB
             }
@@ -38,6 +39,8 @@ class BaseExecutor:
                 input_file.close()
             if output_file:
                 output_file.close()
+            if log_file:
+                log_file.close()
 
         self.post_execution()
         return result

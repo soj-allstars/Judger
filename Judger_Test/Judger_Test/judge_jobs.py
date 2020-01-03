@@ -66,13 +66,13 @@ def do_judge(submit_detail, submission_dir, submitted_executor, solution_executo
         input_path = f'problems/{problem_id}/{case_no}_in'
         output_path = f'{submission_dir}/{case_no}_out'
         answer_path = f'{submission_dir}/{case_no}_ans'
-
+        log_path = f'{submission_dir}/{case_no}_log'
         # processed all test cases
         if not os.path.isfile(input_path):
             break
 
-        submitted_res = submitted_executor.execute(input_path, output_path, time_limit, memory_limit)
-        solution_res = solution_executor.execute(input_path, answer_path, time_limit, memory_limit)
+        solution_res = solution_executor.execute(input_path, answer_path, log_path, time_limit, memory_limit)
+        submitted_res = submitted_executor.execute(input_path, output_path, log_path, time_limit, memory_limit)
         if solution_res['result'] != VerdictResult.AC:
             result['verdict'] = VerdictResult.SE
             result['desc'] = f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> instead of <{RESULT_STR[VerdictResult.AC]}>'
