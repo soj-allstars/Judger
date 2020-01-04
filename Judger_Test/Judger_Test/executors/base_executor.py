@@ -1,5 +1,4 @@
 import lorun
-import shutil
 from utils import create_file_to_write
 from consts import VerdictResult
 
@@ -33,21 +32,27 @@ class BaseExecutor:
                 'result': VerdictResult.SE,
                 'timeused': 0,
                 'memoryused': 0,
+                'desc': "lorun exited unexpectedly"
             }
         finally:
+            self.get_additional_info(result, output_path, log_path)
             if input_file:
                 input_file.close()
             if output_file:
                 output_file.close()
             if log_file:
                 log_file.close()
+            # do some cleanups in subclasses if necessary
+            self.cleanup()
 
-        self.post_execution()
         return result
 
-    def post_execution(self):
-        pass
+    def get_additional_info(self, result, output_path, log_path):
+        # get different infos in subclasses if necessary
+        if not log_path:
+            return
+        with open(log_path, 'r') as f:
+            result['desc'] = f.read()
 
     def cleanup(self):
-        # TODO should we delete exe_dir after execution?
-        shutil.rmtree(self.exe_dir)
+        pass
