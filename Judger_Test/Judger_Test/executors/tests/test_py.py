@@ -5,6 +5,7 @@ from executors import get_executor
 from consts import VerdictResult
 import shutil
 
+
 class TestCpy(unittest.TestCase):
     solution_code = """
 a = input().split()
@@ -12,6 +13,7 @@ print(int(a[0]) + int(a[1]))
     """
     solution_lang = "CPY"
     submission_dir = f'problems/1/test'
+
     def test_AC(self):
         self.submission_dir = f'problems/1/test'
         ac_code = """
@@ -44,6 +46,7 @@ print(int(a[0]) + int(a[1])+1)
             "memory_limit": 131072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
 
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
@@ -64,6 +67,7 @@ print(int(a[0]) + int(a[1])+1)
             "memory_limit": 131072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
 
         self.assertEqual(result['verdict'], VerdictResult.TLE)
 
@@ -83,6 +87,7 @@ print(int(a[0]) + int(a[1])+1)
             "memory_limit": 131072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
 
         self.assertEqual(result['verdict'], VerdictResult.RE)
 
@@ -103,8 +108,9 @@ print(int(a[0]) + int(a[1])+1)
             "memory_limit": 131072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
+
         self.assertEqual(result['verdict'], VerdictResult.RE)
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)
-

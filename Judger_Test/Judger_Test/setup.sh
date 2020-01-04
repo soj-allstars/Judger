@@ -24,3 +24,5 @@ do
   g++ -I ./ $checker -o bin/$filename -O2 --std=c++14
 done
 cd ..
+
+apt install pypy3

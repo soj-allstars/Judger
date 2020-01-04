@@ -68,6 +68,8 @@ int main() {
             "memory_limit": 131072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
+
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
     def test_TLE(self):
@@ -94,6 +96,8 @@ int main() {
             "memory_limit": 131072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
+
         self.assertEqual(result["verdict"], VerdictResult.TLE)
 
     def test_MLE(self):
@@ -122,6 +126,8 @@ int main() {
             "memory_limit": 26072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
+
         self.assertEqual(result["verdict"], VerdictResult.MLE)
 
     def test_RE(self):
@@ -149,6 +155,8 @@ int main() {
             "memory_limit": 306072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor, solution_executor)
+        print(result['desc'])
+
         self.assertEqual(result["verdict"], VerdictResult.RE)
 
     # def test_SE(self):
@@ -205,8 +213,9 @@ int main() {
                 return 0;
             }
         """
-        with self.assertRaises(exceptions.ExecutorInitException):
+        with self.assertRaises(exceptions.ExecutorInitException) as cm:
             submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
+            print(cm.exception)
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)
