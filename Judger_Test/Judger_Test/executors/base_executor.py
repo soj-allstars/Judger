@@ -17,6 +17,7 @@ class BaseExecutor:
         input_file = open(input_path, 'r') if input_path else None
         output_file = create_file_to_write(output_path) if output_path else None
         log_file = create_file_to_write(log_path) if log_path else None
+
         try:
             run_cfg = {
                 'args': self.exe_args,
