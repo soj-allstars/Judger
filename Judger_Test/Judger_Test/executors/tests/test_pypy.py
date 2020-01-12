@@ -6,13 +6,13 @@ from consts import VerdictResult
 import shutil
 
 
-class TestCpy(unittest.TestCase):
+class TestPypy(unittest.TestCase):
     solution_code = """
 a = input().split()
 print(int(a[0]) + int(a[1]))
     """
-    solution_lang = "CPY"
-    submission_lang = "CPY"
+    solution_lang = "PYPY"
+    submission_lang = "PYPY"
 
     submission_dir = f'problems/1/test'
 
