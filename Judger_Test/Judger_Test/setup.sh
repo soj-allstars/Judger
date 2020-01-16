@@ -26,3 +26,5 @@ done
 cd ..
 
 apt install pypy3
+apt install default-jdk
+apt install sshfs

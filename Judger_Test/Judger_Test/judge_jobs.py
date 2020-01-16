@@ -2,7 +2,6 @@ import os
 import conf
 import requests
 import logging
-import lorun
 from consts import VerdictResult, RESULT_STR
 from exceptions import ExecutorInitException
 from executors import get_executor
@@ -82,8 +81,6 @@ def get_solution_answers(problem_dir, solution_executor, time_limit, memory_limi
 def judge_submission(**submit_detail):
     submitted_code = submit_detail["submitted_code"]
     submitted_lang = submit_detail['submitted_lang']
-    solution_code = submit_detail['solution_code']
-    solution_lang = submit_detail['solution_lang']
     submit_id = submit_detail['submit_id']
     problem_id = submit_detail['problem_id']
 
@@ -103,19 +100,13 @@ def judge_submission(**submit_detail):
             result['verdict'] = VerdictResult.CE
             result['desc'] = str(e)
             return result
-        try:
-            solution_executor = get_executor(solution_lang, solution_code, f'{submission_dir}/solution')
-        except ExecutorInitException as e:
-            result['verdict'] = VerdictResult.SE
-            result['desc'] = str(e)
-            return result
-        result = do_judge(submit_detail, submission_dir, submitted_executor, solution_executor)
+        result = do_judge(submit_detail, submission_dir, submitted_executor)
     finally:
         result = {'submit_id': submit_id, 'result': json.dumps(result)}
         send_result_back(conf.RESULT_API_URL, result)
 
 
-def do_judge(submit_detail, submission_dir, submitted_executor, solution_executor):
+def do_judge(submit_detail, submission_dir, submitted_executor):
     problem_id = submit_detail['problem_id']
     time_limit = submit_detail['time_limit']
     memory_limit = submit_detail['memory_limit']
@@ -139,12 +130,7 @@ def do_judge(submit_detail, submission_dir, submitted_executor, solution_executo
         if not os.path.isfile(input_path):
             break
 
-        solution_res = solution_executor.execute(input_path, answer_path, log_path, time_limit, memory_limit)
         submitted_res = submitted_executor.execute(input_path, output_path, log_path, time_limit, memory_limit)
-        if solution_res['result'] != VerdictResult.AC:
-            result['verdict'] = VerdictResult.SE
-            result['desc'] = f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> instead of <{RESULT_STR[VerdictResult.AC]}>'
-            return result
 
         result['time_usage'] = max(result['time_usage'], submitted_res['timeused'])
         result['memory_usage'] = max(result['memory_usage'], submitted_res['memoryused'])
