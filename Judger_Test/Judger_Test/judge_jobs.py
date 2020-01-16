@@ -124,7 +124,7 @@ def do_judge(submit_detail, submission_dir, submitted_executor):
     while True:
         input_path = f'problems/{problem_id}/{case_no}_in'
         output_path = f'{submission_dir}/{case_no}_out'
-        answer_path = f'{submission_dir}/{case_no}_ans'
+        answer_path = f'problems/{problem_id}/{case_no}_ans'
         log_path = f'{submission_dir}/{case_no}_log'
         # processed all test cases
         if not os.path.isfile(input_path):
