@@ -31,7 +31,7 @@ public class Solution {
             "memory_limit": 1500000,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.AC)
 
     def test_WA(self):
@@ -54,7 +54,7 @@ public class Solution {
             "memory_limit": 1500000,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
     def test_CE(self):
@@ -95,10 +95,10 @@ public class Solution {
             "memory_limit": 1500000,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.RE)
 
-    def test_TEL(self):
+    def test_TLE(self):
         self.submission_dir = f'problems/1/test'
         re_code = """
                 import java.util.Scanner;
@@ -122,7 +122,7 @@ public class Solution {
             "memory_limit": 1500000,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result)
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.TLE)
 
     @unittest.skip("MLE can't test")
@@ -148,5 +148,8 @@ public class Solution {
             "memory_limit": 1200000,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result)
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.MLE)
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.submission_dir, ignore_errors=True)
