@@ -8,17 +8,6 @@ import exceptions
 
 
 class TestJava(unittest.TestCase):
-    solution_code = """
-import java.util.Scanner;
-public class Solution {
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        int a=sc.nextInt(),b=sc.nextInt();
-        System.out.println(a+b);
-    }
-}
-    """
-    solution_lang = "JAVA"
     submission_lang = "JAVA"
     submission_dir = f'problems/1/test'
 
@@ -35,15 +24,14 @@ public class Solution {
 }
                 """
         submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
             "memory_limit": 1500000,
             "checker_type": "icmp",
-        }, self.submission_dir, submitted_executor, solution_executor)
-
+        }, self.submission_dir, submitted_executor)
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.AC)
 
     def test_WA(self):
@@ -59,15 +47,14 @@ public class Solution {
         }
                         """
         submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
             "memory_limit": 1500000,
             "checker_type": "icmp",
-        }, self.submission_dir, submitted_executor, solution_executor)
-		print(result['desc'])
+        }, self.submission_dir, submitted_executor)
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
     def test_CE(self):
@@ -101,15 +88,14 @@ public class Solution {
                 }
                 """
         submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
             "memory_limit": 1500000,
             "checker_type": "icmp",
-        }, self.submission_dir, submitted_executor, solution_executor)
-		print(result['desc'])
+        }, self.submission_dir, submitted_executor)
+        print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.RE)
 
     def test_TLE(self):
@@ -129,14 +115,13 @@ public class Solution {
                 }
                 """
         submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1000,
             "memory_limit": 1500000,
             "checker_type": "icmp",
-        }, self.submission_dir, submitted_executor, solution_executor)
+        }, self.submission_dir, submitted_executor)
         print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.TLE)
 
@@ -156,14 +141,13 @@ public class Solution {
                        }
                        """
         submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
-        solution_executor = get_executor(self.solution_lang, self.solution_code, f'{self.submission_dir}/solution')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
             "memory_limit": 1200000,
             "checker_type": "icmp",
-        }, self.submission_dir, submitted_executor, solution_executor)
+        }, self.submission_dir, submitted_executor)
         print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.MLE)
 
