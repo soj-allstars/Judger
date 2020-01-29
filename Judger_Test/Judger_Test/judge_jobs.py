@@ -16,6 +16,7 @@ def check_solution_and_checker(**detail):
     problem_id = detail['problem_id']
     time_limit = detail['time_limit']
     memory_limit = detail['memory_limit']
+    channel_name = detail['channel_name']
 
     problem_dir = f'problems/{problem_id}'
 
@@ -41,7 +42,7 @@ def check_solution_and_checker(**detail):
 
             result['special_judge'] = sj_spawner.execute(None, None, log_file_path, 5000, 251072)
     finally:
-        result = {'problem_id': problem_id, 'result': json.dumps(result)}
+        result = {'problem_id': problem_id, 'channel_name': channel_name, 'result': json.dumps(result)}
         send_result_back(conf.SJ_RESULT_API_URL, result)
 
 
