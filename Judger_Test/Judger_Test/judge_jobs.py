@@ -47,7 +47,13 @@ def check_solution_and_checker(**detail):
 
 
 def get_solution_answers(problem_dir, solution_executor, time_limit, memory_limit):
-    result = {}
+    result = {
+        "verdict": VerdictResult.AC,
+        "desc": "",
+        "time_usage": 0,
+        "memory_usage": 0,
+        "outputs": [],
+    }
 
     case_no = 1
     while True:
