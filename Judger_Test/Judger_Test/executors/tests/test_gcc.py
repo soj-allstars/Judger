@@ -23,7 +23,7 @@ int main() {
     return 0;
 }
         """
-        submitted_executor = get_executor("GXX", ac_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -45,7 +45,7 @@ int main() {
     return 0;
 }
         """
-        submitted_executor = get_executor("GXX", wa_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, wa_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
