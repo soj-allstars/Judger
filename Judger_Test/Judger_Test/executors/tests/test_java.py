@@ -36,7 +36,7 @@ public class Solution {
 
     def test_WA(self):
         self.submission_dir = f'problems/1/test'
-        ac_code = """
+        wa_code = """
         import java.util.Scanner;
         public class Solution {
             public static void main(String[] args) {
@@ -46,7 +46,7 @@ public class Solution {
             }
         }
                         """
-        submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, wa_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -100,7 +100,7 @@ public class Solution {
 
     def test_TLE(self):
         self.submission_dir = f'problems/1/test'
-        re_code = """
+        tle_code = """
                 import java.util.Scanner;
                 public class Solution {
                     public static void main(String[] args) {
@@ -114,7 +114,7 @@ public class Solution {
                     }
                 }
                 """
-        submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, tle_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -128,7 +128,7 @@ public class Solution {
     @unittest.skip("MLE can't test")
     def test_MLE(self):
         self.submission_dir = f'problems/1/test'
-        re_code = """
+        mle_code = """
                        import java.util.Scanner;
                        public class Solution {
                            public static void main(String[] args) {
@@ -140,7 +140,7 @@ public class Solution {
                            }
                        }
                        """
-        submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, mle_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -150,6 +150,35 @@ public class Solution {
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.MLE)
+
+    def test_OLE(self):
+        self.submission_dir = f'problems/1/test'
+        ole_code = """
+                       import java.util.Scanner;
+                       public class Solution {
+                           public static void main(String[] args) {
+                               Scanner sc=new Scanner(System.in);
+                               int a=sc.nextInt(),b=sc.nextInt();
+                               int t = 100000000;
+                               int t1 = 1;
+                               while(t1 < t){
+                                 t1 = t1 + 1;
+                                 System.out.println(a+b);
+                                }
+
+                           }
+                       }
+                       """
+        submitted_executor = get_executor(self.submission_lang, ole_code, f'{self.submission_dir}/submitted')
+        result = do_judge({
+            "submit_id": 1,
+            "problem_id": 1,
+            "time_limit": 5000,
+            "memory_limit": 1200000,
+            "checker_type": "icmp",
+        }, self.submission_dir, submitted_executor)
+        print(result['desc'])
+        self.assertEqual(result['verdict'], VerdictResult.OLE)
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)

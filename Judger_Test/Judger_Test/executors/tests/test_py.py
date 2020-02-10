@@ -7,7 +7,7 @@ import shutil
 
 
 class TestCpy(unittest.TestCase):
-
+    submission_lang = "CPY"
     submission_dir = f'problems/1/test'
 
     def test_AC(self):
@@ -16,7 +16,7 @@ class TestCpy(unittest.TestCase):
 a = input().split()
 print(int(a[0]) + int(a[1]))
         """
-        submitted_executor = get_executor("CPY", ac_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -28,11 +28,11 @@ print(int(a[0]) + int(a[1]))
 
     def test_WA(self):
         self.submission_dir = f'problems/1/test'
-        ac_code = """
+        wa_code = """
 a = input().split()
 print(int(a[0]) + int(a[1])+1)
                 """
-        submitted_executor = get_executor("CPY", ac_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -46,13 +46,13 @@ print(int(a[0]) + int(a[1])+1)
 
     def test_TLE(self):
         self.submission_dir = f'problems/1/test'
-        ac_code = """
+        tle_code = """
 a = input().split()
 while 1:
     a[1] = int(a[1]) + 1
 print(int(a[0]) + int(a[1])+1)
                         """
-        submitted_executor = get_executor("CPY", ac_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -66,12 +66,12 @@ print(int(a[0]) + int(a[1])+1)
 
     def test_RE(self):
         self.submission_dir = f'problems/1/test'
-        ac_code = """
+        re_code = """
 a = input().split()
 a = a + 1
 print(int(a[0]) + int(a[1])+1)
                                 """
-        submitted_executor = get_executor("CPY", ac_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -86,12 +86,12 @@ print(int(a[0]) + int(a[1])+1)
 # MemoryError still RE see log
     def test_MLE(self):
         self.submission_dir = f'problems/1/test'
-        ac_code = """
+        mle_code = """
 a = input().split()
 a =[i for i in range(0, 10000000)]
 print(int(a[0]) + int(a[1])+1)
                                         """
-        submitted_executor = get_executor("CPY", ac_code, f'{self.submission_dir}/submitted')
+        submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
@@ -102,6 +102,26 @@ print(int(a[0]) + int(a[1])+1)
         print(result['desc'])
 
         self.assertEqual(result['verdict'], VerdictResult.RE)
+
+    def test_OLE(self):
+        self.submission_dir = f'problems/1/test'
+        ole_code = """
+a = input().split()
+for i in range(0, 10000000):
+    print(int(a[0]) + int(a[1])+1)
+                                                        """
+        submitted_executor = get_executor(self.submission_lang, ole_code, f'{self.submission_dir}/submitted')
+        result = do_judge({
+            "submit_id": 1,
+            "problem_id": 1,
+            "time_limit": 1000,
+            "memory_limit": 131072,
+            "checker_type": "icmp",
+        }, self.submission_dir, submitted_executor)
+        print(result['desc'])
+
+
+
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)

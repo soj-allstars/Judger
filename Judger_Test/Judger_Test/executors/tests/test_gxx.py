@@ -145,7 +145,7 @@ class TestGxx(unittest.TestCase):
 
     def test_CE(self):
         self.submission_dir = f'problems/1/test'
-        re_code = """
+        ce_code = """
             #include <iostream>
             int fuck[60000000000];
             using namespace std;
@@ -160,8 +160,33 @@ class TestGxx(unittest.TestCase):
             }
         """
         with self.assertRaises(exceptions.ExecutorInitException) as cm:
-            submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
+            submitted_executor = get_executor(self.submission_lang, ce_code, f'{self.submission_dir}/submitted')
             print(cm.exception)
+
+    def test_OLE(self):
+        self.submission_dir = f'problems/1/test'
+        ole_code = """
+                    #include <stdio.h>
+                    int main() {
+                        int a, b;
+                        scanf("%d%d",&a,&b);
+                        for(int i = 0;i < 40000000;i++)
+                            printf("%d",a);
+
+                        return 0;
+                    }
+                """
+        submitted_executor = get_executor(self.submission_lang, ole_code, f'{self.submission_dir}/submitted')
+        result = do_judge({
+            "submit_id": 1,
+            "problem_id": 1,
+            "time_limit": 1111,
+            "memory_limit": 306072,
+            "checker_type": "icmp",
+        }, self.submission_dir, submitted_executor)
+        print(result['desc'])
+
+        self.assertEqual(result["verdict"], VerdictResult.OLE)
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)
