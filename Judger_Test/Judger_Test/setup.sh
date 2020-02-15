@@ -4,13 +4,18 @@ export LOG_DIR=logs
 mkdir -p $LOG_DIR
 mkdir -p problems
 
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+groupadd fuse
+usermod -a -G fuse root
+
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir --upgrade pip
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
 
 git clone https://github.com/jpswing/Lo-runner.git
 cd Lo-runner
 python setup.py install
 cd ..
+
+rm -rf Lo-runner
 
 git clone https://github.com/MikeMirzayanov/testlib.git
 cd testlib
@@ -25,6 +30,6 @@ do
 done
 cd ..
 
-apt install pypy3
-apt install default-jdk
-apt install sshfs
+apt-get update
+apt-get install -y pypy3 default-jdk sshfs
+rm -rf /var/lib/apt/lists/*
