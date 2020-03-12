@@ -10,5 +10,5 @@ redis = Redis(os.environ.get('REDIS_HOST', '127.0.0.1'))
 judge_q = Queue('judge', connection=redis)
 result_q = Queue('result', connection=redis)
 
-LOG_DIR = os.environ.get('LOG_DIR')
-CHECKER_DIR = os.environ.get('CHECKER_DIR')
+LOG_DIR = os.environ.get('LOG_DIR', 'logs')
+CHECKER_DIR = os.environ.get('CHECKER_DIR', 'testlib/bin')

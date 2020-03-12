@@ -30,4 +30,3 @@ class JavaExecutor(BaseExecutor):
                 raise ExecutorInitException(log_file.read())
 
         self.exe_args = ['java', '-classpath', self.exe_dir, name]
-    

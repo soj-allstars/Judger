@@ -18,6 +18,12 @@ class BaseExecutor:
         output_file = create_file_to_write(output_path) if output_path else None
         log_file = create_file_to_write(log_path) if log_path else None
 
+        result = {
+            'result': VerdictResult.SE,
+            'timeused': 0,
+            'memoryused': 0,
+            'desc': "lorun exited unexpectedly"
+        }
         try:
             run_cfg = {
                 'args': self.exe_args,
@@ -29,12 +35,7 @@ class BaseExecutor:
             }
             result = lorun.run(run_cfg)
         except SystemError:
-            return {
-                'result': VerdictResult.SE,
-                'timeused': 0,
-                'memoryused': 0,
-                'desc': "lorun exited unexpectedly"
-            }
+            return result
         finally:
             self.get_additional_info(result, output_path, log_path)
             if input_file:
