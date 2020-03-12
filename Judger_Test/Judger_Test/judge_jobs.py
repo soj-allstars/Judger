@@ -36,11 +36,11 @@ def check_solution_and_checker(**detail):
         sj_code = detail.get('sj_code')
         sj_name = detail.get('sj_name')
         if sj_code is not None:
-            log_file_path = f'{conf.LOG_DIR}/sj_{sj_name}_log.txt'
+            log_file_path = f'{conf.LOG_DIR}/sj_{sj_name}.log'
 
             sj_spawner = SpecialJudgeSpawner(sj_code, None, sj_name)
 
-            result['special_judge'] = sj_spawner.execute(None, None, log_file_path, 5000, 251072)
+            result['special_judge'] = sj_spawner.execute(None, None, log_file_path, 5000, 251072)  # compile here
     finally:
         result = {'problem_id': problem_id, 'channel_name': channel_name, 'result': json.dumps(result)}
         send_result_back(conf.SJ_RESULT_API_URL, result)
@@ -57,9 +57,9 @@ def get_solution_answers(problem_dir, solution_executor, time_limit, memory_limi
 
     case_no = 1
     while True:
-        input_path = f'{problem_dir}/{case_no}_in'
-        answer_path = f'{problem_dir}/{case_no}_ans'
-        log_path = f'{problem_dir}/{case_no}_log'
+        input_path = f'{problem_dir}/{case_no}.in'
+        answer_path = f'{problem_dir}/{case_no}.ans'
+        log_path = f'{problem_dir}/{case_no}.log'
         # processed all test cases
         if not os.path.isfile(input_path):
             break
@@ -129,10 +129,10 @@ def do_judge(submit_detail, submission_dir, submitted_executor):
 
     case_no = 1
     while True:
-        input_path = f'problems/{problem_id}/{case_no}_in'
-        output_path = f'{submission_dir}/{case_no}_out'
-        answer_path = f'problems/{problem_id}/{case_no}_ans'
-        log_path = f'{submission_dir}/{case_no}_log'
+        input_path = f'problems/{problem_id}/{case_no}.in'
+        output_path = f'{submission_dir}/{case_no}.out'
+        answer_path = f'problems/{problem_id}/{case_no}.ans'
+        log_path = f'{submission_dir}/{case_no}.log'
         # processed all test cases
         if not os.path.isfile(input_path):
             break
