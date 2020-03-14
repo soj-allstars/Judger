@@ -13,6 +13,7 @@ class SpecialJudgeSpawner(BaseExecutor):
             f.write(self.code)
 
         self.exe_args = ['g++', self.code_file_path, '-o', self.checker_exec, '-I', 'testlib/', '-O2']
+        self.lang = 'GXX'
 
     def cleanup(self):
         if os.path.exists(self.code_file_path):

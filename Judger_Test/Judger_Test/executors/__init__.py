@@ -2,7 +2,7 @@ from executors.gxx import GxxExecutor
 from executors.cpy import CpyExecutor
 from executors.gcc import GccExecutor
 from executors.java import JavaExecutor
-from executors.pypy import  PypyExecutor
+from executors.pypy import PypyExecutor
 
 _lang_executor_map = {
     "GXX":  GxxExecutor,

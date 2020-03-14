@@ -1,6 +1,7 @@
 import lorun
 from utils import create_file_to_write
 from consts import VerdictResult
+from conf import run_cfgs as cfgs
 
 
 class BaseExecutor:
@@ -8,12 +9,13 @@ class BaseExecutor:
         self.code = code
         self.exe_dir = exe_dir
         self.exe_args = None
+        self.lang = None
         self.init()
 
     def init(self):
         raise NotImplementedError
 
-    def execute(self, input_path, output_path, log_path, time_limit, memory_limit):
+    def execute(self, input_path, output_path, log_path, time_limit, memory_limit, trace=False):
         input_file = open(input_path, 'r') if input_path else None
         output_file = create_file_to_write(output_path) if output_path else None
         log_file = create_file_to_write(log_path) if log_path else None
@@ -25,14 +27,15 @@ class BaseExecutor:
             'desc': "lorun exited unexpectedly"
         }
         try:
-            run_cfg = {
-                'args': self.exe_args,
-                'fd_in': input_file.fileno() if input_file else 0,
-                'fd_out': output_file.fileno() if output_file else 0,
-                'fd_err': log_file.fileno() if log_path else 0,
-                'timelimit': time_limit,  # in MS
-                'memorylimit': memory_limit,  # in KB
-            }
+            run_cfg = self.get_run_cfg(
+                self.exe_args,
+                input_file.fileno() if input_file else 0,
+                output_file.fileno() if output_file else 0,
+                log_file.fileno() if log_path else 0,
+                time_limit,
+                memory_limit,
+                trace=trace,
+            )
             result = lorun.run(run_cfg)
         except SystemError:
             return result
@@ -58,3 +61,17 @@ class BaseExecutor:
 
     def cleanup(self):
         pass
+
+    def get_run_cfg(self, args, fd_in, fd_out, fd_err, time_limit, memory_limit, trace=False):
+        res = {
+            'args': args,
+            'fd_in': fd_in,
+            'fd_out': fd_out,
+            'fd_err': fd_err,
+            'timelimit': time_limit,  # in MS
+            'memorylimit': memory_limit,  # in KB
+        }
+        if trace:
+            cfg = cfgs[self.lang]
+            res.update({'trace': True, 'calls': cfg['allowed_calls'], 'files': cfg['allowed_files']})
+        return res

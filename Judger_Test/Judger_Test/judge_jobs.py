@@ -40,7 +40,7 @@ def check_solution_and_checker(**detail):
 
             sj_spawner = SpecialJudgeSpawner(sj_code, None, sj_name)
 
-            result['special_judge'] = sj_spawner.execute(None, None, log_file_path, 5000, 251072)  # compile here
+            result['special_judge'] = sj_spawner.execute(None, None, log_file_path, 5000, 256 * 1024)  # compile here
     finally:
         result = {'problem_id': problem_id, 'channel_name': channel_name, 'result': json.dumps(result)}
         send_result_back(conf.SJ_RESULT_API_URL, result)
@@ -64,7 +64,7 @@ def get_solution_answers(problem_dir, solution_executor, time_limit, memory_limi
         if not os.path.isfile(input_path):
             break
 
-        solution_res = solution_executor.execute(input_path, answer_path, log_path, time_limit, memory_limit)
+        solution_res = solution_executor.execute(input_path, answer_path, log_path, time_limit, memory_limit, trace=True)
         if solution_res['result'] != VerdictResult.AC:
             result['verdict'] = VerdictResult.CE
             result['desc'] = f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> instead of <{RESULT_STR[VerdictResult.AC]}>'
@@ -137,7 +137,7 @@ def do_judge(submit_detail, submission_dir, submitted_executor):
         if not os.path.isfile(input_path):
             break
 
-        submitted_res = submitted_executor.execute(input_path, output_path, log_path, time_limit, memory_limit)
+        submitted_res = submitted_executor.execute(input_path, output_path, log_path, time_limit, memory_limit, trace=True)
 
         result['time_usage'] = max(result['time_usage'], submitted_res['timeused'])
         result['memory_usage'] = max(result['memory_usage'], submitted_res['memoryused'])
