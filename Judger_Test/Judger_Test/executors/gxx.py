@@ -14,19 +14,20 @@ class GxxExecutor(BaseExecutor):
 
         exe_path = f'{self.exe_dir}/executable'
         log_path = f'{self.exe_dir}/compile.log'
+        self.exe_args = [exe_path]
+        self.lang = 'GXX'
+
         with open(log_path, 'w') as log_file:
-            run_cfg = {
-                'args': ['g++', code_path, '-o', exe_path, '-Wall', '-O2', '--std=c++14'],
-                'fd_in': 0,
-                'fd_out': 0,
-                'fd_err': log_file.fileno(),
-                'timelimit': 5000,  # 5 S
-                'memorylimit': 131072,  # 64 MB
-            }
+            run_cfg = self.get_run_cfg(
+                ['g++', code_path, '-o', exe_path, '-Wall', '-O2', '--std=c++14'],
+                0,
+                0,
+                log_file.fileno(),
+                5000,
+                128 * 1024,  # 128 MB
+            )
             result = lorun.run(run_cfg)
 
         if result['result'] != VerdictResult.AC:
             with open(log_path, 'r') as log_file:
                 raise ExecutorInitException(log_file.read())
-
-        self.exe_args = [exe_path]

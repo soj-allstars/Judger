@@ -10,6 +10,7 @@ class CpyExecutor(BaseExecutor):
         code_file.close()
         # 本质其实是赋值 exe_args ? --lyw
         self.exe_args = ["python", code_path]
+        self.lang = 'CPY'
 
     def get_additional_info(self, result, output_path, log_path):
         # Get last line of log. Maybe will be modified later.
