@@ -5,11 +5,12 @@ from conf import run_cfgs as cfgs
 
 
 class BaseExecutor:
+    lang = None
+
     def __init__(self, code, exe_dir):
         self.code = code
         self.exe_dir = exe_dir
         self.exe_args = None
-        self.lang = None
         self.init()
 
     def init(self):
@@ -53,16 +54,21 @@ class BaseExecutor:
         return result
 
     def get_additional_info(self, result, output_path, log_path):
-        # get different infos in subclasses if necessary
-        if not log_path:
-            return
-        with open(log_path, 'r') as f:
-            result['desc'] = f.read()
+        # get more info in subclasses if necessary
+        info = []
+        if re_call := result.get("re_call"):
+            info.append(f"re_call: {re_call}")
+        if re_signum := result.get("re_signum"):
+            info.append(f"re_signum: {re_signum}")
+        if re_file := result.get("re_file"):
+            info.append(f"re_file: {re_file}\nre_file_flag: {result['re_file_flag']}")
+        result['desc'] = "\n".join(info)
 
     def cleanup(self):
         pass
 
-    def get_run_cfg(self, args, fd_in, fd_out, fd_err, time_limit, memory_limit, trace=False):
+    def get_run_cfg(self, args, fd_in, fd_out, fd_err, time_limit=None, memory_limit=None, trace=False):
+        cfg = cfgs[self.lang]
         res = {
             'args': args,
             'fd_in': fd_in,
@@ -71,7 +77,11 @@ class BaseExecutor:
             'timelimit': time_limit,  # in MS
             'memorylimit': memory_limit,  # in KB
         }
+        # If no *_limit is set, which means the cfg is for compilation, read limits from config file.
+        if not time_limit:
+            res['timelimit'] = cfg['compile_time_limit']
+        if not memory_limit:
+            res['memorylimit'] = cfg['compile_memory_limit']
         if trace:
-            cfg = cfgs[self.lang]
             res.update({'trace': True, 'calls': cfg['allowed_calls'], 'files': cfg['allowed_files']})
         return res

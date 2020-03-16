@@ -12,6 +12,6 @@ class CFChecker:
         cp = subprocess.run(exe_args, capture_output=True)
 
         if cp.returncode != 0:
-            return VerdictResult.WA, str(cp.stderr)  # stderr
+            return VerdictResult.WA, str(cp.stdout) + str(cp.stderr)
 
-        return VerdictResult.AC, str(cp.stderr)
+        return VerdictResult.AC, str(cp.stdout) + str(cp.stderr)
