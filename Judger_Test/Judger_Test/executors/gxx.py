@@ -6,6 +6,8 @@ from exceptions import ExecutorInitException
 
 
 class GxxExecutor(BaseExecutor):
+    lang = 'GXX'
+
     def init(self):
         code_path = f'{self.exe_dir}/code.cpp'
         code_file = create_file_to_write(code_path)
@@ -15,7 +17,6 @@ class GxxExecutor(BaseExecutor):
         exe_path = f'{self.exe_dir}/executable'
         log_path = f'{self.exe_dir}/compile.log'
         self.exe_args = [exe_path]
-        self.lang = 'GXX'
 
         with open(log_path, 'w') as log_file:
             run_cfg = self.get_run_cfg(
@@ -23,8 +24,6 @@ class GxxExecutor(BaseExecutor):
                 0,
                 0,
                 log_file.fileno(),
-                5000,
-                128 * 1024,  # 128 MB
             )
             result = lorun.run(run_cfg)
 

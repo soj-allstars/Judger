@@ -1,8 +1,9 @@
-export CHECKER_DIR=testlib/bin
+export CHECKER_DIR=checker_bin
 export LOG_DIR=logs
 
 mkdir -p $LOG_DIR
 mkdir -p problems
+mkdir -p $CHECKER_DIR
 
 groupadd fuse
 usermod -a -G fuse root
@@ -18,18 +19,13 @@ cd ..
 rm -rf Lo-runner
 
 git clone https://github.com/MikeMirzayanov/testlib.git
-cd testlib
 
-mkdir bin
-for checker in checkers/*.cpp
+for checker in testlib/checkers/*.cpp
 do
   filename=$(basename -- "$checker")
   extension="${filename##*.}"
   filename="${filename%.*}"
-  g++ -I ./ $checker -o bin/$filename -O2 --std=c++14
+  g++ -I testlib/ $checker -o $CHECKER_DIR/$filename -O2 --std=c++14
 done
-cd ..
 
-apt-get update
-apt-get install -y pypy3 default-jdk sshfs
-rm -rf /var/lib/apt/lists/*
+rm -rf testlib

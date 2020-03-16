@@ -89,7 +89,6 @@ def judge_submission(**submit_detail):
     submitted_code = submit_detail["submitted_code"]
     submitted_lang = submit_detail['submitted_lang']
     submit_id = submit_detail['submit_id']
-    problem_id = submit_detail['problem_id']
 
     result = {
         "verdict": VerdictResult.SE,
@@ -100,7 +99,7 @@ def judge_submission(**submit_detail):
     }
 
     try:
-        submission_dir = f'problems/{problem_id}/{submit_id}'
+        submission_dir = f'submissions/{submit_id}'
         try:
             submitted_executor = get_executor(submitted_lang, submitted_code, f'{submission_dir}/submitted')
         except ExecutorInitException as e:
