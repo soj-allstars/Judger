@@ -30,8 +30,8 @@ def check_solution_and_checker(**detail):
             solution_executor = get_executor(solution_lang, solution_code, f'{problem_dir}/solution')
             result['solution'] = get_solution_answers(problem_dir, solution_executor, time_limit, memory_limit)
         except ExecutorInitException as e:
-            result['solution']['solution_verdict'] = VerdictResult.CE
-            result['solution_desc'] = str(e)
+            result['solution']['verdict'] = VerdictResult.CE
+            result['solution']['desc'] = str(e)
 
         sj_code = detail.get('sj_code')
         sj_name = detail.get('sj_name')
@@ -67,7 +67,8 @@ def get_solution_answers(problem_dir, solution_executor, time_limit, memory_limi
         solution_res = solution_executor.execute(input_path, answer_path, log_path, time_limit, memory_limit, trace=True)
         if solution_res['result'] != VerdictResult.AC:
             result['verdict'] = VerdictResult.CE
-            result['desc'] = f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> instead of <{RESULT_STR[VerdictResult.AC]}>'
+            result['desc'] = (f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> instead of <{RESULT_STR[VerdictResult.AC]}>\n'
+                              f'{solution_res.get("desc", "")}')
             return result
 
         result['time_usage'] = max(result['time_usage'], solution_res['timeused'])
