@@ -22,13 +22,13 @@ public class Solution {
         System.out.println(a+b);
     }
 }
-                """
+"""
         submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
-            "memory_limit": 1500000,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
@@ -45,13 +45,13 @@ public class Solution {
                 System.out.println(a+b+1);
             }
         }
-                        """
+"""
         submitted_executor = get_executor(self.submission_lang, wa_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
-            "memory_limit": 1500000,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
@@ -68,7 +68,7 @@ public class Solution {
                 System.out.println(a+b+1);
             }
         }
-        """
+"""
         with self.assertRaises(exceptions.ExecutorInitException) as cm:
             submitted_executor = get_executor(self.submission_lang, ce_code, f'{self.submission_dir}/submitted')
             print(cm.exception)
@@ -86,13 +86,13 @@ public class Solution {
                         System.out.println(a+b+data[4]);
                     }
                 }
-                """
+"""
         submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
-            "memory_limit": 1500000,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
@@ -101,31 +101,34 @@ public class Solution {
     def test_TLE(self):
         self.submission_dir = f'problems/1/test'
         tle_code = """
-                import java.util.Scanner;
-                public class Solution {
-                    public static void main(String[] args) {
-                        Scanner sc=new Scanner(System.in);
-                        int a=sc.nextInt(),b=sc.nextInt();                        
-                        int t = 2000000000;
-                        while(a < t){
-                         a = a + b;
-                        }
-                        System.out.println(a+b);
-                    }
-                }
-                """
+import java.util.Scanner;
+import java.util.*;
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt(),b=sc.nextInt();
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        int t = 20000000;
+        for (int i = 0; i < t; ++i) {
+            arr.add(1);
+            arr.remove(arr.size() - 1);
+        }
+        System.out.println(a+b);
+    }
+}
+"""
         submitted_executor = get_executor(self.submission_lang, tle_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
-            "time_limit": 1000,
-            "memory_limit": 1500000,
+            "time_limit": 100,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.TLE)
 
-    @unittest.skip("MLE can't test")
+    @unittest.skip("java MLE unsupported now")
     def test_MLE(self):
         self.submission_dir = f'problems/1/test'
         mle_code = """
@@ -139,42 +142,41 @@ public class Solution {
                                System.out.println(a+b+data[4]);
                            }
                        }
-                       """
+"""
         submitted_executor = get_executor(self.submission_lang, mle_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 5000,
-            "memory_limit": 1200000,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.MLE)
 
+    @unittest.skip('java runs so slow that takes too much time to hit OLE')
     def test_OLE(self):
         self.submission_dir = f'problems/1/test'
-        ole_code = """
+        ole_code = f"""
                        import java.util.Scanner;
-                       public class Solution {
-                           public static void main(String[] args) {
+                       public class Solution {{
+                           public static void main(String[] args) {{
                                Scanner sc=new Scanner(System.in);
                                int a=sc.nextInt(),b=sc.nextInt();
-                               int t = 100000000;
-                               int t1 = 1;
-                               while(t1 < t){
-                                 t1 = t1 + 1;
-                                 System.out.println(a+b);
-                                }
+                               int t = 729145;
+                               for (int i = 0; i < t; ++i) {{
+                                 System.out.println("{'A' * 100}");
+                               }}
 
-                           }
-                       }
-                       """
+                           }}
+                       }}
+"""
         submitted_executor = get_executor(self.submission_lang, ole_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
-            "time_limit": 5000,
-            "memory_limit": 1200000,
+            "time_limit": 22222,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
