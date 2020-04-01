@@ -1,11 +1,9 @@
 import unittest
-# import conf
 from judge_jobs import do_judge
 from executors import get_executor
 from consts import VerdictResult
 import exceptions
 import shutil
-import os
 
 
 class TestGcc(unittest.TestCase):
@@ -22,13 +20,13 @@ int main() {
     printf("%d",a+b);
     return 0;
 }
-        """
+"""
         submitted_executor = get_executor(self.submission_lang, ac_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1000,
-            "memory_limit": 100072,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
 
@@ -44,13 +42,13 @@ int main() {
     printf("%d",a+b+1);
     return 0;
 }
-        """
+"""
         submitted_executor = get_executor(self.submission_lang, wa_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1000,
-            "memory_limit": 131072,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
@@ -68,13 +66,13 @@ int main() {
     printf("%d",a+b);
     return 0;
 }
-        """
+"""
         submitted_executor = get_executor(self.submission_lang, tle_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1111,
-            "memory_limit": 131072,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
@@ -96,7 +94,7 @@ int main() {
                 printf("%d",fuck[1]+dick[1]);
                 return 0;
             }
-        """
+"""
         submitted_executor = get_executor(self.submission_lang, mle_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
@@ -125,13 +123,13 @@ int main() {
                 printf("%d",fuck[1]+dick[1]);
                 return 0;
             }
-        """
+"""
         submitted_executor = get_executor(self.submission_lang, re_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 1111,
-            "memory_limit": 306072,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
@@ -153,30 +151,30 @@ int main() {
                 printf("%d",fuck[1]+dick[1]);
                 return 0;
             }
-        """
+"""
         with self.assertRaises(exceptions.ExecutorInitException) as cm:
             submitted_executor = get_executor(self.submission_lang, ce_code, f'{self.submission_dir}/submitted')
             print(cm.exception)
 
     def test_OLE(self):
         self.submission_dir = f'problems/1/test'
-        ole_code = """
+        ole_code = f"""
                     #include <stdio.h>
-                    int main() {
+                    int main() {{
                         int a, b;
                         scanf("%d%d",&a,&b);
-                        for(int i = 0;i < 20000000;i++)
-                            printf("%d",a);
+                        for(int i = 0;i < 729145;i++)
+                            printf("%s","{'A' * 100}");
                             
                         return 0;
-                    }
-                """
+                    }}
+"""
         submitted_executor = get_executor(self.submission_lang, ole_code, f'{self.submission_dir}/submitted')
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
             "time_limit": 22222,
-            "memory_limit": 306072,
+            "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
