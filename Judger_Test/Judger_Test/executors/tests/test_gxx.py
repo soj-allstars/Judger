@@ -170,7 +170,7 @@ class TestGxx(unittest.TestCase):
                     int main() {
                         int a, b;
                         scanf("%d%d",&a,&b);
-                        for(int i = 0;i < 40000000;i++)
+                        for(int i = 0;i < 20000000;i++)
                             printf("%d",a);
 
                         return 0;
@@ -180,7 +180,7 @@ class TestGxx(unittest.TestCase):
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
-            "time_limit": 1111,
+            "time_limit": 22222,
             "memory_limit": 306072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
