@@ -4,14 +4,14 @@ from executors import get_executor
 from consts import VerdictResult
 import exceptions
 import shutil
+import conf
 
 
 class TestGcc(unittest.TestCase):
     submission_lang = "GCC"
-    submission_dir = f'problems/1/test'
+    submission_dir = f'{conf.PROJECT_ROOT}/executors/tests/problems/1/test'
 
     def test_AC(self):
-        self.submission_dir = f'problems/1/test'
         ac_code = """
 #include<stdio.h>
 int main() {
@@ -33,7 +33,6 @@ int main() {
         self.assertEqual(result['verdict'], VerdictResult.AC)
 
     def test_WA(self):
-        self.submission_dir = f'problems/1/test'
         wa_code = """
            #include<stdio.h>
 int main() {
@@ -56,7 +55,6 @@ int main() {
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
     def test_TLE(self):
-        self.submission_dir = f'problems/1/test'
         tle_code = """
 #include<stdio.h>
 int main() {
@@ -80,7 +78,6 @@ int main() {
         self.assertEqual(result["verdict"], VerdictResult.TLE)
 
     def test_MLE(self):
-        self.submission_dir = f'problems/1/test'
         mle_code = """
             #include <stdio.h>
             int fuck[3500000];
@@ -109,7 +106,6 @@ int main() {
         self.assertEqual(result["verdict"], VerdictResult.MLE)
 
     def test_RE(self):
-        self.submission_dir = f'problems/1/test'
         re_code = """
             #include <stdio.h>
             int fuck[3500000];
@@ -137,7 +133,6 @@ int main() {
         self.assertEqual(result["verdict"], VerdictResult.RE)
 
     def test_CE(self):
-        self.submission_dir = f'problems/1/test'
         ce_code = """
             #include <stdio.h>
             int fuck[3500000];
@@ -157,7 +152,6 @@ int main() {
             print(cm.exception)
 
     def test_OLE(self):
-        self.submission_dir = f'problems/1/test'
         ole_code = f"""
                     #include <stdio.h>
                     int main() {{
