@@ -3,7 +3,7 @@ import json
 
 PROJECT_ROOT = '/usr/src/judger'
 
-SOJ_HOST = os.environ.get('SOJ_HOST', '127.0.0.1')
+SOJ_HOST = os.environ.get('SOJ_HOST', '172.17.0.1')
 RESULT_API_URL = f'http://{SOJ_HOST}/api/judge/result/'
 SJ_RESULT_API_URL = f'http://{SOJ_HOST}/api/judge/solution-checker-result/'
 

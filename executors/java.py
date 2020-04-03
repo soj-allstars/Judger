@@ -1,5 +1,6 @@
 from executors.base_executor import BaseExecutor
 import lorun
+import javalang
 from utils import create_file_to_write
 from consts import VerdictResult
 from exceptions import ExecutorInitException
@@ -7,16 +8,25 @@ from exceptions import ExecutorInitException
 
 class JavaExecutor(BaseExecutor):
     lang = 'JAVA'
-
+    name = 'Solution'
     def init(self):
-        name = 'Solution'
-        code_path = f'{self.exe_dir}/{name}.java'
+        try:
+            tree = javalang.parse.parse(self.code)
+            self.name = next(klass.name for klass in tree.types
+                        if isinstance(klass, javalang.tree.ClassDeclaration)
+                        for m in klass.methods
+                        if m.name == 'main' and m.modifiers.issuperset({'public', 'static'}))
+        except javalang.parser.JavaSyntaxError:
+            # if code illegal, you can't get a certain main class name, the code must ce ,you call it Solution is ok
+            self.name = 'Solution'
+
+        code_path = f'{self.exe_dir}/{self.name}.java'
         code_file = create_file_to_write(code_path)
         code_file.write(self.code)
         code_file.close()
 
         log_path = f'{self.exe_dir}/compile.log'
-        self.exe_args = ['java', '-classpath', self.exe_dir, name]  # overridden in `execute` method
+        self.exe_args = ['java', '-classpath', self.exe_dir, self.name]  # overridden in `execute` method
 
         with open(log_path, 'w') as log_file:
             run_cfg = self.get_run_cfg(
@@ -39,7 +49,7 @@ class JavaExecutor(BaseExecutor):
         #
         # Actually JVM can be a good sandbox through policy:
         # https://docs.oracle.com/javase/8/docs/technotes/guides/security/PolicyFiles.html
-        self.exe_args = ['java', '-classpath', self.exe_dir, '-Xss1M', f'-Xmx{memory_limit}K', 'Solution']
+        self.exe_args = ['java', '-classpath', self.exe_dir, '-Xss1M', f'-Xmx{memory_limit}K', self.name]
         return super().execute(input_path, output_path, log_path, time_limit, -1, trace)
 
     def get_additional_info(self, result, output_path, log_path):
