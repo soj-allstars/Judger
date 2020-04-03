@@ -76,7 +76,7 @@ public class Solution {
                 public class Solution {
                     public static void main(String[] args) {
                         Scanner sc=new Scanner(System.in);
-                        int data[] = new int[3]; 
+                        int data[] = new int[3];
                         
                         int a=sc.nextInt(),b=sc.nextInt();
                         System.out.println(a+b+data[4]);
@@ -130,7 +130,7 @@ public class Solution {
                        public class Solution {
                            public static void main(String[] args) {
                                Scanner sc=new Scanner(System.in);
-                               int data[] = new int[20000000]; 
+                               int data[] = new int[20000000];
 
                                int a=sc.nextInt(),b=sc.nextInt();
                                System.out.println(a+b+data[4]);

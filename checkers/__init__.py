@@ -1,4 +1,3 @@
-import os
 from checkers.cf_checker import CFChecker
 
 
