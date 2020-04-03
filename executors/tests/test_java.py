@@ -9,10 +9,9 @@ import exceptions
 
 class TestJava(unittest.TestCase):
     submission_lang = "JAVA"
-    submission_dir = f'problems/1/test'
+    submission_dir = f'{conf.PROJECT_ROOT}/executors/tests/problems/1/test'
 
     def test_AC(self):
-        self.submission_dir = f'problems/1/test'
         ac_code = """
 import java.util.Scanner;
 public class Solution {
@@ -35,7 +34,6 @@ public class Solution {
         self.assertEqual(result['verdict'], VerdictResult.AC)
 
     def test_WA(self):
-        self.submission_dir = f'problems/1/test'
         wa_code = """
         import java.util.Scanner;
         public class Solution {
@@ -58,7 +56,6 @@ public class Solution {
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
     def test_CE(self):
-        self.submission_dir = f'problems/1/test'
         ce_code = """
                     import java.util.Scanner;
         public class Solution {
@@ -74,7 +71,6 @@ public class Solution {
             print(cm.exception)
 
     def test_RE(self):
-        self.submission_dir = f'problems/1/test'
         re_code = """
                 import java.util.Scanner;
                 public class Solution {
@@ -99,7 +95,6 @@ public class Solution {
         self.assertEqual(result['verdict'], VerdictResult.RE)
 
     def test_TLE(self):
-        self.submission_dir = f'problems/1/test'
         tle_code = """
 import java.util.Scanner;
 import java.util.*;
@@ -130,7 +125,6 @@ public class Solution {
 
     @unittest.skip("java MLE unsupported now")
     def test_MLE(self):
-        self.submission_dir = f'problems/1/test'
         mle_code = """
                        import java.util.Scanner;
                        public class Solution {
@@ -156,7 +150,6 @@ public class Solution {
 
     @unittest.skip('java runs so slow that takes too much time to hit OLE')
     def test_OLE(self):
-        self.submission_dir = f'problems/1/test'
         ole_code = f"""
                        import java.util.Scanner;
                        public class Solution {{

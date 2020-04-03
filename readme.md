@@ -3,13 +3,13 @@
 ```
 docker run -itd -p 127.0.0.1:6379:6379 --name soj-redis --network soj-net redis
 ```
-### How to build image and run container
-在Judger_Test/Judger_Test文件目录下打开cmd
+### Build image and run container
+Build image
 
 ```
 docker image build -t judger:1.0 .
 ```
-之后
+Run container
 ```
 docker run --privileged=true -d --name soj-judger --network soj-net judger:1.0
 ```

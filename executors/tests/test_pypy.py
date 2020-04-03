@@ -3,14 +3,14 @@ from judge_jobs import do_judge
 from executors import get_executor
 from consts import VerdictResult
 import shutil
+import conf
 
 
-class TestCpy(unittest.TestCase):
-    submission_lang = "CPY"
-    submission_dir = f'problems/1/test'
+class TestPypy(unittest.TestCase):
+    submission_lang = "PYPY"
+    submission_dir = f'{conf.PROJECT_ROOT}/executors/tests/problems/1/test'
 
     def test_AC(self):
-        self.submission_dir = f'problems/1/test'
         ac_code = """
 a = input().split()
 print(int(a[0]) + int(a[1]))
@@ -26,7 +26,6 @@ print(int(a[0]) + int(a[1]))
         self.assertEqual(result['verdict'], VerdictResult.AC)
 
     def test_WA(self):
-        self.submission_dir = f'problems/1/test'
         wa_code = """
 a = input().split()
 print(int(a[0]) + int(a[1])+1)
@@ -44,7 +43,6 @@ print(int(a[0]) + int(a[1])+1)
         self.assertEqual(result['verdict'], VerdictResult.WA)
 
     def test_TLE(self):
-        self.submission_dir = f'problems/1/test'
         tle_code = """
 a = input().split()
 while 1:
@@ -55,7 +53,7 @@ print(int(a[0]) + int(a[1])+1)
         result = do_judge({
             "submit_id": 1,
             "problem_id": 1,
-            "time_limit": 1000,
+            "time_limit": 500,
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
@@ -64,7 +62,6 @@ print(int(a[0]) + int(a[1])+1)
         self.assertEqual(result['verdict'], VerdictResult.TLE)
 
     def test_RE(self):
-        self.submission_dir = f'problems/1/test'
         re_code = """
 a = input().split()
 a = a + 1
@@ -82,9 +79,7 @@ print(int(a[0]) + int(a[1])+1)
 
         self.assertEqual(result['verdict'], VerdictResult.RE)
 
-    @unittest.skip("cpy MLE is really weird that memory_used is slightly lower than memory_limit, resulting in RE instead of MLE")
     def test_MLE(self):
-        self.submission_dir = f'problems/1/test'
         mle_code = """
 a = input().split()
 a =[i for i in range(0, 100000000)]
@@ -103,7 +98,6 @@ print(int(a[0]) + int(a[1])+1)
         self.assertEqual(result['verdict'], VerdictResult.MLE)
 
     def test_OLE(self):
-        self.submission_dir = f'problems/1/test'
         ole_code = f"""
 a = input().split()
 for i in range(0, 729145):
@@ -118,6 +112,8 @@ for i in range(0, 729145):
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
         print(result['desc'])
+
+        self.assertEqual(result['verdict'], VerdictResult.OLE)
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)
