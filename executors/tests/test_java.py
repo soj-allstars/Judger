@@ -175,7 +175,7 @@ public class Solution {
         print(result['desc'])
         self.assertEqual(result['verdict'], VerdictResult.OLE)
 
-    def testClassName(self):
+    def test_class_name(self):
         ac_code = """
         import java.util.Scanner;
         public class Fuck {
