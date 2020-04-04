@@ -67,7 +67,8 @@ def get_solution_answers(problem_dir, solution_executor, time_limit, memory_limi
         solution_res = solution_executor.execute(input_path, answer_path, log_path, time_limit, memory_limit, trace=True)
         if solution_res['result'] != VerdictResult.AC:
             result['verdict'] = VerdictResult.CE
-            result['desc'] = (f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> instead of <{RESULT_STR[VerdictResult.AC]}>\n'
+            result['desc'] = (f'Solution has verdict <{RESULT_STR[solution_res["result"]]}> '
+                              f'instead of <{RESULT_STR[VerdictResult.AC]}>\n'
                               f'{solution_res.get("desc", "")}')
             return result
 
