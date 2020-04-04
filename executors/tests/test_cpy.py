@@ -80,7 +80,8 @@ print(int(a[0]) + int(a[1])+1)
 
         self.assertEqual(result['verdict'], VerdictResult.RE)
 
-    @unittest.skip("cpy MLE is really weird that memory_used is slightly lower than memory_limit, resulting in RE instead of MLE")
+    @unittest.skip("cpy MLE is really weird that memory_used is slightly lower than memory_limit, "
+                   "resulting in RE instead of MLE")
     def test_MLE(self):
         mle_code = """
 a = input().split()
