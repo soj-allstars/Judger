@@ -9,13 +9,14 @@ from exceptions import ExecutorInitException
 class JavaExecutor(BaseExecutor):
     lang = 'JAVA'
     name = 'Solution'
+
     def init(self):
         try:
             tree = javalang.parse.parse(self.code)
             self.name = next(klass.name for klass in tree.types
-                        if isinstance(klass, javalang.tree.ClassDeclaration)
-                        for m in klass.methods
-                        if m.name == 'main' and m.modifiers.issuperset({'public', 'static'}))
+                             if isinstance(klass, javalang.tree.ClassDeclaration)
+                             for m in klass.methods
+                             if m.name == 'main' and m.modifiers.issuperset({'public', 'static'}))
         except javalang.parser.JavaSyntaxError:
             # if code illegal, you can't get a certain main class name, the code must ce ,you call it Solution is ok
             self.name = 'Solution'
