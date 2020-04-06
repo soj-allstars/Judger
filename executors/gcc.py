@@ -20,7 +20,7 @@ class GccExecutor(BaseExecutor):
 
         with open(log_path, 'w') as log_file:
             run_cfg = self.get_run_cfg(
-                ['gcc', code_path, '-o', exe_path, '-Wall', '-O2'],
+                ['gcc', code_path, '-DONLINE_JUDGE', '-o', exe_path, '-Wall', '-O2'],
                 0,
                 0,
                 log_file.fileno(),

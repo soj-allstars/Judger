@@ -46,6 +46,6 @@ jobs:
             docker-compose --file docker-compose.test.yml run sut
           else
             docker build . --file Dockerfile --tag $IMAGE_NAME
-            docker run --name test --entrypoint=python -w $PROJECT_ROOT/executors/tests \
+            docker run --name test --entrypoint=python -w $PROJECT_ROOT/tests \
                        -e PYTHONPATH=$PROJECT_ROOT --rm $IMAGE_NAME -m unittest -v
           fi

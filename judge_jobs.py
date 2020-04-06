@@ -1,7 +1,6 @@
 import os
 import conf
 import requests
-import logging
 from consts import VerdictResult, RESULT_STR
 from exceptions import ExecutorInitException
 from executors import get_executor
@@ -109,6 +108,9 @@ def judge_submission(**submit_detail):
             result['desc'] = str(e)
             return result
         result = do_judge(submit_detail, submission_dir, submitted_executor)
+    except Exception as ex:
+        result['desc'] = str(ex)
+        raise
     finally:
         result = {'submit_id': submit_id, 'result': json.dumps(result)}
         send_result_back(conf.RESULT_API_URL, result)
@@ -164,7 +166,4 @@ def do_judge(submit_detail, submission_dir, submitted_executor):
 
 
 def send_result_back(api_url, result):
-    try:
-        requests.post(api_url, result, timeout=3)
-    except requests.exceptions.Timeout:
-        logging.error(f'[send_result_back] soj has no response.')
+    requests.post(api_url, result, timeout=3)

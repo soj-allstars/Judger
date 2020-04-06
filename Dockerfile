@@ -5,5 +5,5 @@ COPY setup.sh requirements.txt ./
 RUN bash setup.sh
 COPY . .
 
-ENTRYPOINT ["rq", "worker", "--url", "redis://soj-redis:6379"]
+ENTRYPOINT ["rq", "worker", "-c", "rq_settings"]
 CMD ["default", "check"]
