@@ -5,10 +5,8 @@ from consts import VerdictResult, RESULT_STR
 from exceptions import ExecutorInitException
 from executors import get_executor
 from checkers import get_checker
+from checkers.special_judger import create_special_judge
 import json
-from checkers.special_judger import SpecialJudgeSpawner
-
-
 
 
 def check_solution_and_checker(**detail):
@@ -38,16 +36,10 @@ def check_solution_and_checker(**detail):
         sj_name = detail.get('sj_name')
         if sj_code is not None:
             log_file_path = f'{conf.LOG_DIR}/sj_{sj_name}.log'
-            result['special_judge'] = create_special_judge(sj_code, sj_name, 10000, 256 * 1024)  # compile here
+            result['special_judge'] = create_special_judge(sj_code, sj_name, log_file_path)  # compile here
     finally:
         result = {'problem_id': problem_id, 'channel_name': channel_name, 'result': json.dumps(result)}
         send_result_back(conf.SJ_RESULT_API_URL, result)
-
-
-def create_special_judge(sj_code,sj_name, log_path, time_limit, memory_limit, trace=False):
-    sj_spawner = SpecialJudgeSpawner(sj_code, None, sj_name)
-    return sj_spawner.execute(None, None, log_path, time_limit, memory_limit)  # compile here
-
 
 
 def get_solution_answers(problem_dir, solution_executor, time_limit, memory_limit):

@@ -1,3 +1,5 @@
+set -ex
+
 export CHECKER_DIR=checker_bin
 export LOG_DIR=logs
 
@@ -28,5 +30,5 @@ do
   g++ -I testlib/ $checker -o $CHECKER_DIR/$filename -O2 --std=c++14
 done
 
-cp testlib/testlib.h checkers
+cp testlib/testlib.h $CHECKER_DIR
 rm -rf testlib
