@@ -28,4 +28,5 @@ do
   g++ -I testlib/ $checker -o $CHECKER_DIR/$filename -O2 --std=c++14
 done
 
+cp testlib/testlib.h checkers
 rm -rf testlib
