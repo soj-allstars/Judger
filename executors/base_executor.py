@@ -56,12 +56,12 @@ class BaseExecutor:
     def get_additional_info(self, result, output_path, log_path):
         # get more info in subclasses if necessary
         info = []
-        if re_call := result.get("re_call"):
-            info.append(f"re_call: {re_call}")
-        if re_signum := result.get("re_signum"):
-            info.append(f"re_signum: {re_signum}")
-        if re_file := result.get("re_file"):
-            info.append(f"re_file: {re_file}\nre_file_flag: {result['re_file_flag']}")
+        if "re_call" in result:
+            info.append(f"re_call: {result['re_call']}")
+        if "re_signum" in result:
+            info.append(f"re_signum: {result['re_signum']}")
+        if "re_file" in result:
+            info.append(f"re_file: {result['re_file']}\nre_file_flag: {result['re_file_flag']}")
         result['desc'] = "\n".join(info)
 
     def cleanup(self):
