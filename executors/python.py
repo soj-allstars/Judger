@@ -15,7 +15,7 @@ class PythonExecutor(BaseExecutor):
             code_file.write(self.code)
 
         exe_path = f'{self.exe_dir}/__pycache__/code.{self.magic}.pyc'
-        self.exe_args = [self.interpreter, '-O', '-BS', exe_path]
+        self.exe_args = [self.interpreter, '-O', '-S', exe_path]
 
         log_path = f'{self.exe_dir}/compile.log'
         with open(log_path, 'w') as log_file:
