@@ -7,9 +7,6 @@ mkdir -p $LOG_DIR
 mkdir -p problems
 mkdir -p $CHECKER_DIR
 
-groupadd fuse
-usermod -a -G fuse root
-
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir --upgrade pip
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
 

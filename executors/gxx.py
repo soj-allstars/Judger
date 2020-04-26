@@ -20,7 +20,7 @@ class GxxExecutor(BaseExecutor):
 
         with open(log_path, 'w') as log_file:
             run_cfg = self.get_run_cfg(
-                ['g++', code_path, '-DONLINE_JUDGE', '-o', exe_path, '-Wall', '-O2', '--std=c++14'],
+                ['g++', code_path, '-DONLINE_JUDGE', '-o', exe_path, '-Wall', '-O2', '-std=c++17'],
                 0,
                 0,
                 log_file.fileno(),

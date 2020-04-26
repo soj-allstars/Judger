@@ -1,4 +1,4 @@
-FROM jkswing/soj-judger-base:0.1
+FROM jkswing/soj-judger-base:0.2
 WORKDIR /usr/src/judger
 
 COPY setup.sh requirements.txt ./
