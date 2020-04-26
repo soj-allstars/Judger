@@ -55,7 +55,7 @@ int main(int argc, char * argv[])
             "memory_limit": 262144,
             "checker_type": sj_name,
         }, self.submission_dir, submitted_executor)
-        self.assertEqual(result['verdict'], VerdictResult.AC)
+        self.assertEqual(result['verdict'], VerdictResult.AC, msg=result['desc'])
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)

@@ -30,8 +30,7 @@ public class Solution {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
-        self.assertEqual(result['verdict'], VerdictResult.AC)
+        self.assertEqual(result['verdict'], VerdictResult.AC, msg=result['desc'])
 
     def test_WA(self):
         wa_code = """
@@ -52,8 +51,7 @@ public class Solution {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
-        self.assertEqual(result['verdict'], VerdictResult.WA)
+        self.assertEqual(result['verdict'], VerdictResult.WA, msg=result['desc'])
 
     def test_CE(self):
         ce_code = """
@@ -68,7 +66,7 @@ public class Solution {
 """
         with self.assertRaises(exceptions.ExecutorInitException) as cm:
             submitted_executor = get_executor(self.submission_lang, ce_code, f'{self.submission_dir}/submitted')
-            print(cm.exception)
+            print(cm.exception, flush=True)
 
     def test_RE(self):
         re_code = """
@@ -91,8 +89,7 @@ public class Solution {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
-        self.assertEqual(result['verdict'], VerdictResult.RE)
+        self.assertEqual(result['verdict'], VerdictResult.RE, msg=result['desc'])
 
     def test_TLE(self):
         tle_code = """
@@ -120,8 +117,7 @@ public class Solution {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
-        self.assertEqual(result['verdict'], VerdictResult.TLE)
+        self.assertEqual(result['verdict'], VerdictResult.TLE, msg=result['desc'])
 
     @unittest.skip("java MLE unsupported now")
     def test_MLE(self):
@@ -130,7 +126,7 @@ public class Solution {
                        public class Solution {
                            public static void main(String[] args) {
                                Scanner sc=new Scanner(System.in);
-                               int data[] = new int[20000000];
+                               int data[] = new int[60000000];
 
                                int a=sc.nextInt(),b=sc.nextInt();
                                System.out.println(a+b+data[4]);
@@ -145,8 +141,7 @@ public class Solution {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
-        self.assertEqual(result['verdict'], VerdictResult.MLE)
+        self.assertEqual(result['verdict'], VerdictResult.MLE, msg=result['desc'])
 
     @unittest.skip('java runs so slow that takes too much time to hit OLE')
     def test_OLE(self):
@@ -172,8 +167,7 @@ public class Solution {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
-        self.assertEqual(result['verdict'], VerdictResult.OLE)
+        self.assertEqual(result['verdict'], VerdictResult.OLE, msg=result['desc'])
 
     def test_class_name(self):
         ac_code = """
@@ -194,9 +188,7 @@ public class Solution {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
-        self.assertEqual(result['verdict'], VerdictResult.AC)
-        pass
+        self.assertEqual(result['verdict'], VerdictResult.AC, msg=result['desc'])
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)

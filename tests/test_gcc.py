@@ -30,7 +30,7 @@ int main() {
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
 
-        self.assertEqual(result['verdict'], VerdictResult.AC)
+        self.assertEqual(result['verdict'], VerdictResult.AC, msg=result['desc'])
 
     def test_WA(self):
         wa_code = """
@@ -50,9 +50,8 @@ int main() {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
 
-        self.assertEqual(result['verdict'], VerdictResult.WA)
+        self.assertEqual(result['verdict'], VerdictResult.WA, msg=result['desc'])
 
     def test_TLE(self):
         tle_code = """
@@ -73,9 +72,8 @@ int main() {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
 
-        self.assertEqual(result["verdict"], VerdictResult.TLE)
+        self.assertEqual(result["verdict"], VerdictResult.TLE, msg=result['desc'])
 
     def test_MLE(self):
         mle_code = """
@@ -100,10 +98,8 @@ int main() {
             "memory_limit": 28072,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result)
-        print(result['desc'])
 
-        self.assertEqual(result["verdict"], VerdictResult.MLE)
+        self.assertEqual(result["verdict"], VerdictResult.MLE, msg=f"{result}\n{result['desc']}")
 
     def test_RE(self):
         re_code = """
@@ -128,9 +124,8 @@ int main() {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
 
-        self.assertEqual(result["verdict"], VerdictResult.RE)
+        self.assertEqual(result["verdict"], VerdictResult.RE, msg=result['desc'])
 
     def test_CE(self):
         ce_code = """
@@ -149,7 +144,7 @@ int main() {
 """
         with self.assertRaises(exceptions.ExecutorInitException) as cm:
             submitted_executor = get_executor(self.submission_lang, ce_code, f'{self.submission_dir}/submitted')
-            print(cm.exception)
+            print(cm.exception, flush=True)
 
     def test_OLE(self):
         ole_code = f"""
@@ -171,9 +166,8 @@ int main() {
             "memory_limit": 262144,
             "checker_type": "icmp",
         }, self.submission_dir, submitted_executor)
-        print(result['desc'])
 
-        self.assertEqual(result["verdict"], VerdictResult.OLE)
+        self.assertEqual(result["verdict"], VerdictResult.OLE, msg=result['desc'])
 
     def tearDown(self) -> None:
         shutil.rmtree(self.submission_dir, ignore_errors=True)
