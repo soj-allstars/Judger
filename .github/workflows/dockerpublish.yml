@@ -14,7 +14,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: judger-test
+  IMAGE_NAME: soj-judger
   PROJECT_ROOT: /usr/src/judger
 
 jobs:
@@ -84,5 +84,5 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag image $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
