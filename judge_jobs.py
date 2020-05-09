@@ -97,7 +97,7 @@ def judge_submission(**submit_detail):
     }
 
     try:
-        submission_dir = f'submissions/{submit_id}'
+        submission_dir = f'{conf.SUBMISSION_DIR}/{submit_id}'
         try:
             submitted_executor = get_executor(submitted_lang, submitted_code, f'{submission_dir}/submitted')
         except ExecutorInitException as e:
@@ -164,3 +164,17 @@ def do_judge(submit_detail, submission_dir, submitted_executor):
 
 def send_result_back(api_url, result):
     requests.post(api_url, result, timeout=3)
+
+
+def check_submissions_and_remove():
+    import time
+    import shutil
+
+    now = time.time()
+    with os.scandir(conf.SUBMISSION_DIR) as it:
+        for entry in it:
+            stat = entry.stat()
+            elapsed_hours_since_created = (now - stat.st_mtime) / 60 / 60
+            if elapsed_hours_since_created > conf.SUBMISSION_EXPIRE_HOURS:
+                shutil.rmtree(entry.path)
+                print(f"deleted {entry.path}")
