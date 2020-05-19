@@ -1,4 +1,4 @@
-rq
-redis
+rq==1.4.1
+redis==3.5.2
 requests
 javalang
