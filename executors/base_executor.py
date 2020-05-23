@@ -2,6 +2,7 @@ import lorun
 from utils import create_file_to_write
 from consts import VerdictResult
 from conf import run_cfgs as cfgs
+import os
 
 
 class BaseExecutor:
@@ -49,7 +50,7 @@ class BaseExecutor:
             if log_file:
                 log_file.close()
             # do some cleanups in subclasses if necessary
-            self.cleanup()
+            self.cleanup(log_path)
 
         return result
 
@@ -64,8 +65,10 @@ class BaseExecutor:
             info.append(f"re_file: {result['re_file']}\nre_file_flag: {result['re_file_flag']}")
         result['desc'] = "\n".join(info)
 
-    def cleanup(self):
-        pass
+    def cleanup(self, log_path):
+        if log_path:
+            if os.path.getsize(log_path) == 0:
+                os.remove(log_path)
 
     def get_run_cfg(self, args, fd_in, fd_out, fd_err, time_limit=None, memory_limit=None, trace=False):
         cfg = cfgs[self.lang]

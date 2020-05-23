@@ -25,7 +25,8 @@ class SpecialJudgeSpawner(BaseExecutor):
         with open(log_path, 'r') as f:
             result['desc'] = f.read()
 
-    def cleanup(self):
+    def cleanup(self, log_path):
+        super().cleanup(log_path)
         if os.path.exists(self.code_file_path):
             os.remove(self.code_file_path)
 
