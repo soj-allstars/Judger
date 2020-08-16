@@ -24,6 +24,7 @@ class PythonExecutor(BaseExecutor):
                 0,
                 0,
                 log_file.fileno(),
+                runner=-1,
             )
             result = lorun.run(run_cfg)
 

@@ -1,6 +1,6 @@
 import lorun
 from utils import create_file_to_write
-from consts import VerdictResult
+from consts import VerdictResult, NOBODY_UID
 from conf import run_cfgs as cfgs
 import os
 
@@ -17,7 +17,7 @@ class BaseExecutor:
     def init(self):
         raise NotImplementedError
 
-    def execute(self, input_path, output_path, log_path, time_limit, memory_limit, trace=False):
+    def execute(self, input_path, output_path, log_path, time_limit, memory_limit, trace=False, runner=NOBODY_UID):
         input_file = open(input_path, 'r') if input_path else None
         output_file = create_file_to_write(output_path) if output_path else None
         log_file = create_file_to_write(log_path) if log_path else None
@@ -37,6 +37,7 @@ class BaseExecutor:
                 time_limit,
                 memory_limit,
                 trace=trace,
+                runner=runner,
             )
             result = lorun.run(run_cfg)
         except SystemError:
@@ -70,7 +71,7 @@ class BaseExecutor:
             if os.path.getsize(log_path) == 0:
                 os.remove(log_path)
 
-    def get_run_cfg(self, args, fd_in, fd_out, fd_err, time_limit=None, memory_limit=None, trace=False):
+    def get_run_cfg(self, args, fd_in, fd_out, fd_err, time_limit=None, memory_limit=None, trace=False, runner=NOBODY_UID):
         cfg = cfgs[self.lang]
         res = {
             'args': args,
@@ -79,6 +80,7 @@ class BaseExecutor:
             'fd_err': fd_err,
             'timelimit': time_limit,  # in MS
             'memorylimit': memory_limit,  # in KB
+            'runner': runner,
         }
         # If no *_limit is set, which means the cfg is for compilation, read limits from config file.
         if not time_limit:
