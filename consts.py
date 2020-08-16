@@ -25,3 +25,6 @@ RESULT_STR = [
     'Compile Error',
     'System Error'
 ]
+
+
+NOBODY_UID = 65534

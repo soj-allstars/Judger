@@ -33,4 +33,6 @@ class SpecialJudgeSpawner(BaseExecutor):
 
 def create_special_judge(sj_code, sj_name, log_path, time_limit=10000, memory_limit=256 * 1024, trace=False):
     sj_spawner = SpecialJudgeSpawner(sj_code, None, sj_name)
-    return sj_spawner.execute(None, None, log_path, time_limit, memory_limit, trace=trace)  # compile here
+
+    # compile here. runner -1 means not to setuid.
+    return sj_spawner.execute(None, None, log_path, time_limit, memory_limit, trace=trace, runner=-1)
