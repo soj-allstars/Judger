@@ -3,7 +3,9 @@
     "allowed_calls": [0, 1, 3, 5, 8, 9, 10, 11, 12, 20, 21, 158, 231, 257],
     "allowed_files": {
       "/etc/ld.so.cache": 524288,
-      "/lib/x86_64-linux-gnu/libc.so.6": 524288
+      "/lib/x86_64-linux-gnu/libc.so.6": 524288,
+      "/lib/x86_64-linux-gnu/libm.so.6": 524288,
+      "/lib/x86_64-linux-gnu/libgcc_s.so.1": 524288
     },
     "compile_time_limit": 5000,
     "compile_memory_limit": 262144
