@@ -7,8 +7,8 @@ on:
       - master
 
     # Publish `v1.2.3` tags as releases.
-    tags:
-      - v*
+    # tags:
+    #   - v*
 
   # Run tests for any PRs.
   pull_request:
@@ -63,11 +63,11 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into registry
-        run: echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_REGISTRY_USERNAME }} --password-stdin
+        run: echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_REGISTRY_USERNAME }} --password-stdin ${{ secrets.DOCKER_REGISTRY }}
 
       - name: Push image
         run: |
-          IMAGE_ID=${{ secrets.DOCKER_REGISTRY_USERNAME }}/$IMAGE_NAME
+          IMAGE_ID=${{ secrets.DOCKER_REGISTRY }}/dllm/$IMAGE_NAME
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
