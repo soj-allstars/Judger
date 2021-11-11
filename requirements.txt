@@ -1,4 +1,5 @@
 rq==1.4.1
 redis==3.5.2
+click==7.1.2
 requests
 javalang
